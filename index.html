@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Salé SIDIBÉ | Mathématiques, Physique-Chimie & Informatique</title>
+
+  <meta name="description"
+    content="Salé SIDIBÉ, enseignant spécialiste en mathématiques, physique, chimie et informatique. Cours collectifs, à domicile et en ligne à Bamako et partout dans le monde.">
+
+  <meta name="keywords"
+    content="Salé Sidibé, mathématiques, physique, chimie, informatique, cours à domicile, cours en ligne, Bamako, Mali">
+
+  <meta name="author" content="Salé SIDIBÉ">
+
+  <!-- Aperçu lors du partage sur les réseaux sociaux -->
+  <meta property="og:title"
+    content="Salé SIDIBÉ | Enseignant en Mathématiques, Physique-Chimie & Informatique">
+
+  <meta property="og:description"
+    content="Cours collectifs, à domicile et en ligne. Mathématiques, Physique, Chimie et Informatique.">
+
+  <meta property="og:type" content="website">
+
+  <!-- Icônes -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <!-- Police -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+
+    /* ==============================
+       VARIABLES
+    ============================== */
+
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --accent: #facc15;
+
+      --background: #f8fafc;
+      --surface: #ffffff;
+      --surface-2: #eef4ff;
+
+      --text: #0f172a;
+      --text-light: #64748b;
+
+      --border: #e2e8f0;
+
+      --shadow:
+        0 15px 40px rgba(15, 23, 42, 0.08);
+
+      --radius: 22px;
+    }
+
+    body.dark {
+      --background: #020617;
+      --surface: #0f172a;
+      --surface-2: #172554;
+
+      --text: #f8fafc;
+      --text-light: #cbd5e1;
+
+      --border: #1e293b;
+
+      --shadow:
+        0 15px 40px rgba(0, 0, 0, 0.35);
+    }
+
+
+    /* ==============================
+       RESET
+    ============================== */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+      transition: 0.3s;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1150px, 92%);
+      margin: auto;
+    }
+
+
+    /* ==============================
+       HEADER
+    ============================== */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    body.dark header {
+      background: rgba(2,6,23,0.88);
+    }
+
+    .navbar {
+      height: 75px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      font-weight: 900;
+      font-size: 19px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 14px;
+
+      color: white;
+
+      background:
+        linear-gradient(135deg,
+        var(--primary),
+        var(--secondary));
+
+      box-shadow: 0 8px 20px rgba(37,99,235,.25);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-light);
+      transition: .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-button {
+      border: 0;
+
+      width: 42px;
+      height: 42px;
+
+      border-radius: 12px;
+
+      background: var(--surface-2);
+      color: var(--text);
+
+      cursor: pointer;
+      font-size: 17px;
+    }
+
+    .menu-button {
+      display: none;
+    }
+
+
+    /* ==============================
+       HERO
+    ============================== */
+
+    .hero {
+      min-height: 720px;
+
+      display: flex;
+      align-items: center;
+
+      position: relative;
+      overflow: hidden;
+
+      background:
+        radial-gradient(
+          circle at 10% 20%,
+          rgba(37,99,235,.16),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 90% 80%,
+          rgba(6,182,212,.15),
+          transparent 30%
+        );
+    }
+
+    .hero-grid {
+      display: grid;
+
+      grid-template-columns:
+        1.1fr .9fr;
+
+      gap: 70px;
+
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+
+      align-items: center;
+      gap: 8px;
+
+      padding: 8px 14px;
+
+      border-radius: 999px;
+
+      background: var(--surface-2);
+      color: var(--primary);
+
+      font-size: 13px;
+      font-weight: 700;
+
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 6vw, 70px);
+
+      line-height: 1.02;
+
+      letter-spacing: -2px;
+
+      margin-bottom: 22px;
+    }
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+    .hero-description {
+      font-size: 18px;
+
+      color: var(--text-light);
+
+      max-width: 650px;
+
+      margin-bottom: 30px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 10px;
+
+      padding: 14px 20px;
+
+      border-radius: 14px;
+
+      font-weight: 700;
+
+      border: 0;
+
+      cursor: pointer;
+
+      transition: .25s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+
+      box-shadow:
+        0 12px 25px rgba(37,99,235,.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .btn-outline:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+    }
+
+
+    /* ==============================
+       HERO CARD
+    ============================== */
+
+    .hero-card {
+      position: relative;
+
+      padding: 35px;
+
+      border-radius: 30px;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--surface),
+          var(--surface-2)
+        );
+
+      border: 1px solid var(--border);
+
+      box-shadow: var(--shadow);
+    }
+
+    .science-symbols {
+      position: absolute;
+
+      inset: 0;
+
+      overflow: hidden;
+
+      opacity: .07;
+
+      pointer-events: none;
+
+      font-size: 90px;
+
+      font-weight: 900;
+    }
+
+    .science-symbols span {
+      position: absolute;
+    }
+
+    .science-symbols span:nth-child(1) {
+      top: 10px;
+      left: 20px;
+    }
+
+    .science-symbols span:nth-child(2) {
+      right: 20px;
+      top: 100px;
+    }
+
+    .science-symbols span:nth-child(3) {
+      bottom: 20px;
+      left: 80px;
+    }
+
+    .profile-placeholder {
+      width: 170px;
+      height: 170px;
+
+      margin: auto;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 45px;
+      font-weight: 900;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--secondary)
+        );
+
+      border: 8px solid var(--surface);
+
+      box-shadow:
+        0 20px 40px rgba(37,99,235,.25);
+
+      position: relative;
+      z-index: 2;
+    }
+
+    .profile-title {
+      text-align: center;
+
+      margin-top: 20px;
+
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .profile-subtitle {
+      text-align: center;
+
+      color: var(--text-light);
+
+      font-size: 14px;
+
+      margin-top: 5px;
+    }
+
+    .location {
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+
+      gap: 6px;
+
+      margin-top: 14px;
+
+      color: var(--primary);
+
+      font-weight: 700;
+
+      font-size: 14px;
+    }
+
+
+    /* ==============================
+       SUBJECTS
+    ============================== */
+
+    .subjects {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      justify-content: center;
+
+      gap: 8px;
+
+      margin-top: 25px;
+    }
+
+    .subject {
+      padding: 7px 12px;
+
+      border-radius: 999px;
+
+      background: var(--surface);
+
+      border: 1px solid var(--border);
+
+      font-size: 12px;
+
+      font-weight: 700;
+    }
+
+
+    /* ==============================
+       STATS
+    ============================== */
+
+    .stats {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 15px;
+
+      margin-top: 25px;
+    }
+
+    .stat {
+      text-align: center;
+
+      padding: 22px 10px;
+
+      border-radius: 18px;
+
+      background: var(--surface);
+
+      border: 1px solid var(--border);
+    }
+
+    .stat strong {
+      display: block;
+
+      font-size: 25px;
+
+      color: var(--primary);
+
+      font-weight: 900;
+    }
+
+    .stat span {
+      color: var(--text-light);
+
+      font-size: 11px;
+    }
+
+
+    /* ==============================
+       SECTIONS
+    ============================== */
+
+    section {
+      padding: 100px 0;
+    }
+
+    .section-header {
+      text-align: center;
+
+      max-width: 700px;
+
+      margin:
+        0 auto 50px;
+    }
+
+    .section-header span {
+      color: var(--primary);
+
+      font-size: 13px;
+
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: 2px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(30px, 5vw, 45px);
+
+      margin-top: 8px;
+
+      line-height: 1.1;
+    }
+
+    .section-header p {
+      margin-top: 15px;
+
+      color: var(--text-light);
+    }
+
+
+    /* ==============================
+       CARDS
+    ============================== */
+
+    .cards {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 22px;
+    }
+
+    .card {
+      padding: 30px;
+
+      border-radius: var(--radius);
+
+      background: var(--surface);
+
+      border: 1px solid var(--border);
+
+      box-shadow: var(--shadow);
+
+      transition: .3s;
+    }
+
+    .card:hover {
+      transform: translateY(-7px);
+    }
+
+    .card-icon {
+      width: 55px;
+      height: 55px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 16px;
+
+      background: var(--surface-2);
+
+      color: var(--primary);
+
+      font-size: 23px;
+
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      font-size: 20px;
+
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: var(--text-light);
+
+      font-size: 14px;
+    }
+
+
+    /* ==============================
+       ABOUT
+    ============================== */
+
+    .about {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 60px;
+
+      align-items: center;
+    }
+
+    .about-box {
+      padding: 40px;
+
+      border-radius: 30px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          #0ea5e9
+        );
+
+      color: white;
+
+      box-shadow:
+        0 25px 50px rgba(37,99,235,.25);
+    }
+
+    .about-box i {
+      font-size: 45px;
+
+      margin-bottom: 20px;
+    }
+
+    .about-box h3 {
+      font-size: 30px;
+
+      margin-bottom: 15px;
+    }
+
+    .about-text p {
+      color: var(--text-light);
+
+      margin-bottom: 15px;
+    }
+
+
+    /* ==============================
+       SERVICES
+    ============================== */
+
+    .services {
+      background: var(--surface-2);
+    }
+
+
+    /* ==============================
+       PRICING
+    ============================== */
+
+    .price-card {
+      text-align: center;
+    }
+
+    .price {
+      font-size: 30px;
+
+      font-weight: 900;
+
+      color: var(--primary);
+
+      margin: 15px 0;
+    }
+
+    .price-card ul {
+      list-style: none;
+
+      text-align: left;
+
+      margin-top: 20px;
+    }
+
+    .price-card li {
+      padding: 9px 0;
+
+      color: var(--text-light);
+
+      font-size: 14px;
+    }
+
+    .price-card li i {
+      color: #22c55e;
+
+      margin-right: 8px;
+    }
+
+
+    /* ==============================
+       CONTACT
+    ============================== */
+
+    .contact-box {
+      max-width: 850px;
+
+      margin: auto;
+
+      padding: 45px;
+
+      border-radius: 30px;
+
+      text-align: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #172554,
+          #0f172a
+        );
+
+      color: white;
+
+      box-shadow:
+        0 30px 60px rgba(15,23,42,.25);
+    }
+
+    .contact-box h2 {
+      font-size: 38px;
+
+      margin-bottom: 12px;
+    }
+
+    .contact-box p {
+      color: #cbd5e1;
+
+      margin-bottom: 25px;
+    }
+
+    .contact-buttons {
+      display: flex;
+
+      justify-content: center;
+
+      flex-wrap: wrap;
+
+      gap: 12px;
+    }
+
+    .whatsapp {
+      background: #22c55e;
+
+      color: white;
+    }
+
+    .email {
+      background: white;
+
+      color: #0f172a;
+    }
+
+
+    /* ==============================
+       FOOTER
+    ============================== */
+
+    footer {
+      padding: 40px 0;
+
+      border-top: 1px solid var(--border);
+
+      background: var(--surface);
+    }
+
+    .footer-content {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 20px;
+    }
+
+    .footer-content p {
+      color: var(--text-light);
+
+      font-size: 13px;
+    }
+
+    .socials {
+      display: flex;
+
+      gap: 10px;
+    }
+
+    .socials a {
+      width: 40px;
+      height: 40px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 12px;
+
+      background: var(--surface-2);
+
+      color: var(--primary);
+    }
+
+
+    /* ==============================
+       MOBILE
+    ============================== */
+
+    @media (max-width: 850px) {
+
+      .nav-links {
+        display: none;
+
+        position: absolute;
+
+        top: 75px;
+
+        left: 0;
+        right: 0;
+
+        padding: 20px;
+
+        background: var(--surface);
+
+        border-bottom:
+          1px solid var(--border);
+
+        flex-direction: column;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .menu-button {
+        display: block;
+      }
+
+      .hero {
+        min-height: auto;
+
+        padding:
+          70px 0;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+      }
+
+      .hero h1 {
+        font-size: 44px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .about {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns:
+          repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 550px) {
+
+      section {
+        padding: 70px 0;
+      }
+
+      .navbar {
+        height: 65px;
+      }
+
+      .hero h1 {
+        font-size: 38px;
+
+        letter-spacing: -1.5px;
+      }
+
+      .hero-description {
+        font-size: 16px;
+      }
+
+      .hero-buttons,
+      .contact-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .hero-card {
+        padding: 25px 18px;
+      }
+
+      .profile-placeholder {
+        width: 140px;
+        height: 140px;
+      }
+
+      .stats {
+        gap: 8px;
+      }
+
+      .stat {
+        padding: 15px 5px;
+      }
+
+      .stat strong {
+        font-size: 20px;
+      }
+
+      .stat span {
+        font-size: 9px;
+      }
+
+      .about-box,
+      .contact-box {
+        padding: 30px 22px;
+      }
+
+      .contact-box h2 {
+        font-size: 29px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+
+        text-align: center;
+      }
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <!-- ==============================
+       HEADER
+  ============================== -->
+
+  <header>
+
+    <div class="container navbar">
+
+      <a href="#accueil" class="brand">
+
+        <div class="brand-logo">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+
+        <span>Salé SIDIBÉ</span>
+
+      </a>
+
+
+      <nav class="nav-links" id="navLinks">
+
+        <a href="#accueil">Accueil</a>
+
+        <a href="#apropos">À propos</a>
+
+        <a href="#matieres">Matières</a>
+
+        <a href="#services">Services</a>
+
+        <a href="#tarifs">Tarifs</a>
+
+        <a href="#contact">Contact</a>
+
+      </nav>
+
+
+      <div class="nav-actions">
+
+        <button
+          class="icon-button"
+          onclick="toggleTheme()"
+          aria-label="Changer le thème">
+
+          <i
+            class="fa-solid fa-moon"
+            id="themeIcon">
+          </i>
+
+        </button>
+
+
+        <button
+          class="icon-button menu-button"
+          onclick="toggleMenu()"
+          aria-label="Menu">
+
+          <i class="fa-solid fa-bars"></i>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+
+  <!-- ==============================
+       HERO
+  ============================== -->
+
+  <main>
+
+    <section class="hero" id="accueil">
+
+      <div class="container hero-grid">
+
+
+        <div>
+
+          <div class="badge">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            Enseignement scientifique de qualité
+
+          </div>
+
+
+          <h1>
+
+            Apprendre.
+
+            <br>
+
+            <span>Comprendre.</span>
+
+            <br>
+
+            Réussir.
+
+          </h1>
+
+
+          <p class="hero-description">
+
+            Je suis <strong>Salé SIDIBÉ</strong>,
+            enseignant spécialiste en
+            mathématiques, physique, chimie
+            et informatique.
+
+            J'accompagne les élèves du niveau
+            fondamentale au lycée avec une
+            méthode simple, progressive et
+            adaptée à chaque apprenant.
+
+          </p>
+
+
+          <div class="hero-buttons">
+
+            <a
+              href="https://wa.me/22389827200?text=Bonjour%20M.%20Salé%20SIDIBÉ,%20je%20souhaite%20des%20informations%20sur%20vos%20cours."
+              class="btn btn-primary"
+              target="_blank">
+
+              <i class="fa-brands fa-whatsapp"></i>
+
+              Me contacter sur WhatsApp
+
+            </a>
+
+
+            <a
+              href="#services"
+              class="btn btn-outline">
+
+              Découvrir mes cours
+
+              <i class="fa-solid fa-arrow-down"></i>
+
+            </a>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- PROFILE CARD -->
+
+        <div class="hero-card">
+
+          <div class="science-symbols">
+
+            <span>∑</span>
+            <span>π</span>
+            <span>∫</span>
+
+          </div>
+
+
+          <div class="profile-placeholder">
+
+            SS
+
+          </div>
+
+
+          <div class="profile-title">
+
+            Salé SIDIBÉ
+
+          </div>
+
+
+          <div class="profile-subtitle">
+
+            Enseignant spécialiste
+
+          </div>
+
+
+          <div class="location">
+
+            <i class="fa-solid fa-location-dot"></i>
+
+            Bamako, Mali
+
+          </div>
+
+
+          <div class="subjects">
+
+            <span class="subject">
+              Mathématiques
+            </span>
+
+            <span class="subject">
+              Physique
+            </span>
+
+            <span class="subject">
+              Chimie
+            </span>
+
+            <span class="subject">
+              Informatique
+            </span>
+
+          </div>
+
+
+          <div class="stats">
+
+            <div class="stat">
+
+              <strong>8+</strong>
+
+              <span>
+                Années d'expérience
+              </span>
+
+            </div>
+
+
+            <div class="stat">
+
+              <strong>500+</strong>
+
+              <span>
+                Élèves accompagnés
+              </span>
+
+            </div>
+
+
+            <div class="stat">
+
+              <strong>95%</strong>
+
+              <span
