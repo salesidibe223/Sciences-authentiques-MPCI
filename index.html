@@ -1769,6 +1769,35 @@
   </div>
 
   </section>
+<script>
+/* =========================================
+   FAQ ACCORDÉON PROFESSIONNEL
+========================================= */
+
+const faqQuestions = document.querySelectorAll(".faq-question");
+
+faqQuestions.forEach((question) => {
+
+  question.addEventListener("click", () => {
+
+    const currentItem = question.parentElement;
+
+    // Fermer les autres questions
+    document.querySelectorAll(".faq-item").forEach((item) => {
+
+      if (item !== currentItem) {
+        item.classList.remove("active");
+      }
+
+    });
+
+    // Ouvrir / fermer la question sélectionnée
+    currentItem.classList.toggle("active");
+
+  });
+
+});
+</script>
 </body>
 </html>
 
