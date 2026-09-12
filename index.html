@@ -1430,18 +1430,15 @@
               Me contacter sur WhatsApp
 
             </a>
+      <a
+  href="cours.html"
+  class="btn btn-outline">
 
+  Découvrir mes cours
 
-            <a
-              href="#services"
-              class="btn btn-outline">
+  <i class="fa-solid fa-arrow-right"></i>
 
-              Découvrir mes cours
-
-              <i class="fa-solid fa-arrow-down"></i>
-
-            </a>
-
+      </a>
           </div>
         </div>
       </div>
@@ -1734,6 +1731,108 @@ faqQuestions.forEach((question) => {
 
 });
 </script>
+<script>
+/* =========================================
+   MENU MOBILE
+========================================= */
+
+const menuButton = document.getElementById("menuButton");
+const navLinks = document.getElementById("navLinks");
+
+if (menuButton && navLinks) {
+
+  menuButton.addEventListener("click", () => {
+
+    navLinks.classList.toggle("active");
+
+    const icon = menuButton.querySelector("i");
+
+    if (navLinks.classList.contains("active")) {
+      icon.classList.remove("fa-bars");
+      icon.classList.add("fa-xmark");
+    } else {
+      icon.classList.remove("fa-xmark");
+      icon.classList.add("fa-bars");
+    }
+
+  });
+
+
+  /* Fermer le menu après avoir choisi une rubrique */
+
+  navLinks.querySelectorAll("a").forEach((link) => {
+
+    link.addEventListener("click", () => {
+
+      navLinks.classList.remove("active");
+
+      const icon = menuButton.querySelector("i");
+
+      icon.classList.remove("fa-xmark");
+      icon.classList.add("fa-bars");
+
+    });
+
+  });
+
+}
+
+
+/* =========================================
+   MODE SOMBRE
+========================================= */
+
+const themeToggle = document.getElementById("themeToggle");
+
+if (themeToggle) {
+
+  themeToggle.addEventListener("click", () => {
+
+    document.body.classList.toggle("dark");
+
+    const icon = themeToggle.querySelector("i");
+
+    if (document.body.classList.contains("dark")) {
+      icon.classList.remove("fa-moon");
+      icon.classList.add("fa-sun");
+    } else {
+      icon.classList.remove("fa-sun");
+      icon.classList.add("fa-moon");
+    }
+
+  });
+
+}
+
+
+/* =========================================
+   FAQ
+========================================= */
+
+const faqQuestions = document.querySelectorAll(".faq-question");
+
+faqQuestions.forEach((question) => {
+
+  question.addEventListener("click", () => {
+
+    const currentItem = question.closest(".faq-item");
+
+    document.querySelectorAll(".faq-item").forEach((item) => {
+
+      if (item !== currentItem) {
+        item.classList.remove("active");
+      }
+
+    });
+
+    currentItem.classList.toggle("active");
+
+  });
+
+});
+</script>
+</body>
+</html>
 </body>
 </html>
 
