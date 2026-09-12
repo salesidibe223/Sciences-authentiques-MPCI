@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://salesidibe223.github.io/Sciences-authentiques-MPCI/sitemap.xml
