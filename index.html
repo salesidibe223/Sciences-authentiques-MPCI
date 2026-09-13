@@ -1694,36 +1694,6 @@
     </div>
   </div>
   </section>
-
-<script>
-/* =========================================
-   FAQ ACCORDÉON PROFESSIONNEL
-========================================= */
-
-const faqQuestions = document.querySelectorAll(".faq-question");
-
-faqQuestions.forEach((question) => {
-
-  question.addEventListener("click", () => {
-
-    const currentItem = question.parentElement;
-
-    // Fermer les autres questions
-    document.querySelectorAll(".faq-item").forEach((item) => {
-
-      if (item !== currentItem) {
-        item.classList.remove("active");
-      }
-
-    });
-
-    // Ouvrir / fermer la question sélectionnée
-    currentItem.classList.toggle("active");
-
-  });
-
-});
-</script>
 <script>
 /* ==============================
    MENU MOBILE
@@ -1863,6 +1833,33 @@ document.querySelectorAll("#navLinks a").forEach(link => {
   });
 });
 </script>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const faqQuestions = document.querySelectorAll(".faq-question");
+
+  faqQuestions.forEach(function (question) {
+
+    question.addEventListener("click", function () {
+
+      const faqItem = question.closest(".faq-item");
+
+      // Fermer les autres questions
+      document.querySelectorAll(".faq-item").forEach(function (item) {
+        if (item !== faqItem) {
+          item.classList.remove("active");
+        }
+      });
+
+      // Ouvrir / fermer la question sélectionnée
+      faqItem.classList.toggle("active");
+
+    });
+
+  });
+
+});
+  </script>
 </body>
 </html>
 
