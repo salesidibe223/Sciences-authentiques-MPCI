@@ -1692,10 +1692,9 @@
       </div>
 
     </div>
-
   </div>
-
   </section>
+
 <script>
 /* =========================================
    FAQ ACCORDÉON PROFESSIONNEL
@@ -1824,6 +1823,45 @@ document.querySelectorAll(".faq-question").forEach(function(question) {
 
 });
 
+</script>
+  <script>
+  function toggleMenu() {
+  const navLinks = document.getElementById("navLinks");
+  const menuButton = document.querySelector(".menu-button");
+  const icon = menuButton ? menuButton.querySelector("i") : null;
+
+  if (!navLinks) return;
+
+  navLinks.classList.toggle("active");
+
+  if (navLinks.classList.contains("active")) {
+    if (icon) {
+      icon.classList.remove("fa-bars");
+      icon.classList.add("fa-xmark");
+    }
+  } else {
+    if (icon) {
+      icon.classList.remove("fa-xmark");
+      icon.classList.add("fa-bars");
+    }
+  }
+}
+
+// Fermer le menu après avoir cliqué sur un lien
+document.querySelectorAll("#navLinks a").forEach(link => {
+  link.addEventListener("click", () => {
+    const navLinks = document.getElementById("navLinks");
+    const menuButton = document.querySelector(".menu-button");
+    const icon = menuButton ? menuButton.querySelector("i") : null;
+
+    navLinks.classList.remove("active");
+
+    if (icon) {
+      icon.classList.remove("fa-xmark");
+      icon.classList.add("fa-bars");
+    }
+  });
+});
 </script>
 </body>
 </html>
