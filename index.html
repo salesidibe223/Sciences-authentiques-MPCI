@@ -1266,182 +1266,156 @@
     justify-content: center;
     background: white;
 }
-    /* =====================================================
-   EN-TÊTE RESPONSIVE — ANDROID + ORDINATEUR
-===================================================== */
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-}
-
-.navbar {
-  position: relative;
-  min-height: 90px;
-  display: flex;
-  align-items: center;
-  padding: 8px 20px;
-  gap: 20px;
-}
-
-/* =====================================================
-   LOGO
-===================================================== */
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  flex-shrink: 0;
-}
-
-.brand-logo {
-  width: 82px;
-  height: 82px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: #fff;
-  border: 3px solid #2563eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 5px 18px rgba(37, 99, 235, 0.20);
-}
-
-.brand-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* =====================================================
-   NOM SALÉ SIDIBÉ
-===================================================== */
-
-.brand > span {
-  padding: 8px 16px;
-  border-radius: 10px;
-  background: #e8f1ff;
-  color: #1456c4;
-  font-size: 22px;
-  font-weight: 900;
-  letter-spacing: 0.6px;
-  white-space: nowrap;
-}
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-left: auto;
-}
-
-.nav-links a {
-  white-space: nowrap;
-}
-
-/* =====================================================
-   BOUTONS THÈME + MENU
-===================================================== */
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.icon-button {
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-}
-
-.menu-button {
-  display: none;
-}
-
-/* =====================================================
-   TABLETTE / PETIT ÉCRAN
-===================================================== */
-
-@media (max-width: 1100px) {
-
-  .nav-links {
-    gap: 10px;
-  }
-
-  .nav-links a {
-    font-size: 14px;
-  }
-
-  .brand > span {
-    font-size: 20px;
-  }
-
-  .brand-logo {
-    width: 72px;
-    height: 72px;
-  }
-}
-
-/* =====================================================
-   ANDROID / MOBILE
-===================================================== */
+  /* =========================================
+   EN-TÊTE MOBILE PREMIUM
+========================================= */
 
 @media (max-width: 850px) {
 
-  .navbar {
-    min-height: 100px;
-    padding: 8px 12px;
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--surface);
   }
 
-  /* Logo à gauche */
+  .navbar {
+    position: relative;
+    min-height: 125px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 105px 10px 105px;
+  }
+
+  /* =====================================
+     LOGO À GAUCHE
+  ===================================== */
+
   .brand {
-    gap: 8px;
+    position: absolute;
+    left: 12px;
+    top: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
   }
 
   .brand-logo {
-    width: 78px;
-    height: 78px;
+    width: 105px;
+    height: 105px;
+
+    border-radius: 50%;
+    overflow: hidden;
+
+    background: white;
+    border: 3px solid #2563eb;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+      0 5px 18px rgba(37, 99, 235, 0.25);
+
+    flex-shrink: 0;
   }
 
-  /* Nom professionnel */
+  .brand-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* =====================================
+     NOM AU CENTRE
+  ===================================== */
+
   .brand > span {
-    font-size: 19px;
-    padding: 7px 12px;
-    border-radius: 9px;
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    padding: 9px 18px;
+
+    background: #e8f1ff;
+    color: #1456c4;
+
+    border-radius: 12px;
+
+    font-size: 24px;
+    font-weight: 900;
+
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+
+    box-shadow:
+      0 4px 14px rgba(37, 99, 235, 0.15);
+
+    z-index: 2;
   }
 
-  /* Navigation cachée jusqu'au clic */
+  /* =====================================
+     🌙 ET ☰ À DROITE, CÔTE À CÔTE
+  ===================================== */
+
+  .nav-actions {
+    position: absolute;
+
+    top: 15px;
+    right: 12px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    gap: 7px;
+
+    z-index: 1002;
+  }
+
+  .icon-button {
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+  }
+
+  .menu-button {
+    display: flex;
+  }
+
+  /* =====================================
+     MENU MOBILE
+  ===================================== */
+
   .nav-links {
     display: none;
+
     position: absolute;
+
     top: 100%;
     left: 0;
     right: 0;
 
-    padding: 18px;
+    padding: 20px;
 
     background: var(--surface);
+
     border-bottom: 1px solid var(--border);
 
     flex-direction: column;
-    align-items: stretch;
-    gap: 0;
 
     z-index: 1001;
   }
@@ -1449,28 +1423,7 @@ header {
   .nav-links.active {
     display: flex;
   }
-
-  .nav-links a {
-    padding: 14px 10px;
-    font-size: 16px;
-  }
-
-  /* 🌙 ☰ toujours côte à côte */
-  .nav-actions {
-    margin-left: auto;
-    flex-direction: row;
-    gap: 6px;
-  }
-
-  .icon-button {
-    width: 43px;
-    height: 43px;
-  }
-
-  .menu-button {
-    display: flex;
-  }
-  }
+    }
   </style>
 </head>
 <body>
