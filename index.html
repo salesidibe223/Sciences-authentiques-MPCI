@@ -5,7 +5,6 @@
 <meta name="google-site-verification" content="8GN09hyz_ykzthN-0IQGYIggk1JJNi29peeo9yYkMXc" />
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
-
   <title>Salé SIDIBÉ | Cours de Mathématiques, Physique, Chimie & Informatique à Bamako</title>
 
   <meta name="description"
@@ -1400,24 +1399,24 @@
         </div>
       </div>
     </section>
-   <div class="max-w-6xl mx-auto px-6 text-center">
-    <span class="text-yellow-400 font-semibold uppercase tracking-wider">
+       <div class="max-w-6xl mx-auto px-6 text-center">
+       <span class="text-yellow-400 font-semibold uppercase tracking-wider">
       Zone d'intervention
-    </span>
+      </span>
 
-    <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-6">
+       <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-6">
       Cours de sciences à Bamako et environs
-    </h2>
+       </h2>
 
-    <p class="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+       <p class="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
       Salé SIDIBÉ propose des cours de mathématiques, physique, chimie et
       informatique pour les élèves du fondamentale et du lycée.
       Les cours sont disponibles en collectif, à domicile et en ligne.
       Les interventions sont proposées à Bamako, notamment à Kalabancoro,
       Kabala et Tiébani, ainsi qu'en ligne partout dans le monde.
-    </p>
+      </p>
 
-    <div class="flex flex-wrap justify-center gap-3 mt-8">
+       <div class="flex flex-wrap justify-center gap-3 mt-8">
       <span class="px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/40">
         Bamako
       </span>
@@ -1435,9 +1434,9 @@
       </span>
     </div>
   </div>
-</section> <a href="cours.html" class="hover:text-blue-600">
-  Cours
-</a>
+   </section> <a href="cours.html" class="hover:text-blue-600">
+          Cours
+    </a>
   </main>
 
 <!-- =========================================
@@ -1727,16 +1726,16 @@ faqQuestions.forEach((question) => {
 });
 </script>
 <script>
-/* =========================================
+/* ==============================
    MENU MOBILE
-========================================= */
+============================== */
 
 const menuButton = document.getElementById("menuButton");
 const navLinks = document.getElementById("navLinks");
 
 if (menuButton && navLinks) {
 
-  menuButton.addEventListener("click", () => {
+  menuButton.addEventListener("click", function () {
 
     navLinks.classList.toggle("active");
 
@@ -1753,11 +1752,9 @@ if (menuButton && navLinks) {
   });
 
 
-  /* Fermer le menu après avoir choisi une rubrique */
+  navLinks.querySelectorAll("a").forEach(function(link) {
 
-  navLinks.querySelectorAll("a").forEach((link) => {
-
-    link.addEventListener("click", () => {
+    link.addEventListener("click", function() {
 
       navLinks.classList.remove("active");
 
@@ -1773,26 +1770,29 @@ if (menuButton && navLinks) {
 }
 
 
-/* =========================================
-   MODE SOMBRE
-========================================= */
+/* ==============================
+   MODE SOMBRE / CLAIR
+============================== */
 
 const themeToggle = document.getElementById("themeToggle");
+const themeIcon = document.getElementById("themeIcon");
 
 if (themeToggle) {
 
-  themeToggle.addEventListener("click", () => {
+  themeToggle.addEventListener("click", function() {
 
     document.body.classList.toggle("dark");
 
-    const icon = themeToggle.querySelector("i");
-
     if (document.body.classList.contains("dark")) {
-      icon.classList.remove("fa-moon");
-      icon.classList.add("fa-sun");
+
+      themeIcon.classList.remove("fa-moon");
+      themeIcon.classList.add("fa-sun");
+
     } else {
-      icon.classList.remove("fa-sun");
-      icon.classList.add("fa-moon");
+
+      themeIcon.classList.remove("fa-sun");
+      themeIcon.classList.add("fa-moon");
+
     }
 
   });
@@ -1800,19 +1800,17 @@ if (themeToggle) {
 }
 
 
-/* =========================================
+/* ==============================
    FAQ
-========================================= */
+============================== */
 
-const faqQuestions = document.querySelectorAll(".faq-question");
+document.querySelectorAll(".faq-question").forEach(function(question) {
 
-faqQuestions.forEach((question) => {
-
-  question.addEventListener("click", () => {
+  question.addEventListener("click", function() {
 
     const currentItem = question.closest(".faq-item");
 
-    document.querySelectorAll(".faq-item").forEach((item) => {
+    document.querySelectorAll(".faq-item").forEach(function(item) {
 
       if (item !== currentItem) {
         item.classList.remove("active");
@@ -1825,45 +1823,7 @@ faqQuestions.forEach((question) => {
   });
 
 });
-</script>
-<script>
-function toggleMenu() {
-  const navLinks = document.getElementById("navLinks");
-  const menuButton = document.querySelector(".menu-button");
-  const icon = menuButton ? menuButton.querySelector("i") : null;
 
-  if (!navLinks) return;
-
-  navLinks.classList.toggle("active");
-
-  if (navLinks.classList.contains("active")) {
-    if (icon) {
-      icon.classList.remove("fa-bars");
-      icon.classList.add("fa-xmark");
-    }
-  } else {
-    if (icon) {
-      icon.classList.remove("fa-xmark");
-      icon.classList.add("fa-bars");
-    }
-  }
-}
-
-// Fermer le menu après avoir cliqué sur un lien
-document.querySelectorAll("#navLinks a").forEach(link => {
-  link.addEventListener("click", () => {
-    const navLinks = document.getElementById("navLinks");
-    const menuButton = document.querySelector(".menu-button");
-    const icon = menuButton ? menuButton.querySelector("i") : null;
-
-    navLinks.classList.remove("active");
-
-    if (icon) {
-      icon.classList.remove("fa-xmark");
-      icon.classList.add("fa-bars");
-    }
-  });
-});
 </script>
 </body>
 </html>
