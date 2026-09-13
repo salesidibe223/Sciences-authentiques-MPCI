@@ -76,11 +76,14 @@
     "url": "https://salesidibe223.github.io/Sciences-authentiques-MPCI/",
     "email": "salesidibe223@gmail.com",
     "telephone": "+22389827200",
-    "address": {
+    "address":
+    } 
+    {
       "@type": "PostalAddress",
       "addressLocality": "Bamako",
       "addressCountry": "ML"
     },
+    {
     "knowsAbout": [
       "Mathématiques",
       "Physique",
@@ -1253,30 +1256,35 @@
     padding: 0 16px 20px 32px;
   }
   }
+ .brand-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+}
+
+.brand-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   </style>
 </head>
-
-
 <body>
   <!-- ==============================
        HEADER
   ============================== -->
 
   <header>
-
-    <div class="container navbar">
-
-      <a href="#accueil" class="brand">
-
-        <div class="brand-logo">
-          <i class="fa-solid fa-graduation-cap"></i>
-        </div>
-
+    <div class="brand-logo">
+    <img src="images/logo.png" alt="Logo MPCI - Salé SIDIBÉ">
+</div>
         <span>Salé SIDIBÉ</span>
-
       </a>
-        
-
       <nav class="nav-links" id="navLinks">
 
         <a href="#accueil">Accueil</a>
@@ -1294,8 +1302,6 @@
   Cours
 </a>
       </nav>
-
-
       <div class="nav-actions">
         <button
   class="icon-button"
@@ -1339,27 +1345,15 @@
             <i class="fa-solid fa-circle-check"></i>
 
             Enseignement scientifique de qualité
-
           </div>
-
-
           <h1>
-
             Apprendre.
-
             <br>
-
             <span>Comprendre.</span>
-
             <br>
-
             Réussir.
-
           </h1>
-
-
           <p class="hero-description">
-
             Je suis <strong>Salé SIDIBÉ</strong>,
             enseignant spécialiste en
             mathématiques, physique, chimie
