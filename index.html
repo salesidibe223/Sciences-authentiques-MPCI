@@ -720,45 +720,7 @@
 
       margin-bottom: 15px;
     }
-<section id="zone-intervention" class="py-20">
-  <div class="max-w-6xl mx-auto px-6 text-center">
-    <span class="text-yellow-400 font-semibold uppercase tracking-wider">
-      Zone d'intervention
-    </span>
 
-    <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-6">
-      Cours de sciences à Bamako et environs
-    </h2>
-
-    <p class="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-      Salé SIDIBÉ propose des cours de mathématiques, physique, chimie et
-      informatique pour les élèves du fondamentale et du lycée.
-      Les cours sont disponibles en collectif, à domicile et en ligne.
-      Les interventions sont proposées à Bamako, notamment à Kalabancoro,
-      Kabala et Tiébani, ainsi qu'en ligne partout dans le monde.
-    </p>
-
-    <div class="flex flex-wrap justify-center gap-3 mt-8">
-      <span class="px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/40">
-        Bamako
-      </span>
-      <span class="px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/40">
-        Kalabancoro
-      </span>
-      <span class="px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/40">
-        Kabala
-      </span>
-      <span class="px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/40">
-        Tiébani
-      </span>
-      <span class="px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/40">
-        En ligne partout dans le monde
-      </span>
-    </div>
-  </div>
-</section> <a href="cours.html" class="hover:text-blue-600">
-  Cours
-</a>
 
     /* ==============================
        SERVICES
@@ -1314,7 +1276,45 @@
         <span>Salé SIDIBÉ</span>
 
       </a>
+        <section id="zone-intervention" class="py-20">
+  <div class="max-w-6xl mx-auto px-6 text-center">
+    <span class="text-yellow-400 font-semibold uppercase tracking-wider">
+      Zone d'intervention
+    </span>
 
+    <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-6">
+      Cours de sciences à Bamako et environs
+    </h2>
+
+    <p class="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+      Salé SIDIBÉ propose des cours de mathématiques, physique, chimie et
+      informatique pour les élèves du fondamentale et du lycée.
+      Les cours sont disponibles en collectif, à domicile et en ligne.
+      Les interventions sont proposées à Bamako, notamment à Kalabancoro,
+      Kabala et Tiébani, ainsi qu'en ligne partout dans le monde.
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-3 mt-8">
+      <span class="px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/40">
+        Bamako
+      </span>
+      <span class="px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/40">
+        Kalabancoro
+      </span>
+      <span class="px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/40">
+        Kabala
+      </span>
+      <span class="px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/40">
+        Tiébani
+      </span>
+      <span class="px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/40">
+        En ligne partout dans le monde
+      </span>
+    </div>
+  </div>
+</section> <a href="cours.html" class="hover:text-blue-600">
+  Cours
+</a>
 
       <nav class="nav-links" id="navLinks">
 
@@ -1336,27 +1336,19 @@
 
 
       <div class="nav-actions">
-
         <button
-          class="icon-button"
-          onclick="toggleTheme()"
-          aria-label="Changer le thème">
+  class="icon-button"
+  id="themeToggle"
+  aria-label="Changer le thème">
+        </button>
+        <button
+  class="icon-button menu-button"
+  id="menuButton"
+  aria-label="Ouvrir le menu">
 
-          <i class="fa-solid fa-moon"
-             id="themeIcon"></i>
+  <i class="fa-solid fa-bars"></i>
 
         </button>
-
-
-        <button
-          class="icon-button menu-button"
-          onclick="toggleMenu()"
-          aria-label="Ouvrir le menu">
-
-          <i class="fa-solid fa-bars"></i>
-
-        </button>
-
       </div>
 
     </div>
