@@ -185,109 +185,235 @@
       width: min(1150px, 92%);
       margin: auto;
     }
+    /* =========================================
+   HEADER PROFESSIONNEL
+========================================= */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(18px);
+
+  border-bottom: 1px solid var(--border);
+}
+
+body.dark header {
+  background: rgba(2,6,23,.94);
+}
+
+.navbar {
+  min-height: 105px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: relative;
+}
 
 
-    /* ==============================
-       HEADER
-    ============================== */
+/* =========================================
+   LOGO + NOM
+========================================= */
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+.brand {
+  display: flex;
+  flex-direction: column;
 
-      background: rgba(255,255,255,.90);
-      backdrop-filter: blur(18px);
+  align-items: center;
+  justify-content: center;
 
-      border-bottom: 1px solid var(--border);
+  text-align: center;
+
+  gap: 3px;
+
+  min-width: 125px;
+
+  transition: .3s ease;
+}
+
+.brand:hover {
+  transform: translateY(-2px);
+}
+
+
+/* GRAND LOGO */
+
+.brand-logo {
+  width: 68px;
+  height: 68px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 20px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--secondary)
+    );
+
+  font-size: 32px;
+
+  box-shadow:
+    0 12px 30px rgba(37,99,235,.30);
+
+  border: 3px solid rgba(255,255,255,.8);
+
+  position: relative;
+}
+
+
+/* PETIT EFFET LUMINEUX */
+
+.brand-logo::after {
+  content: "";
+
+  position: absolute;
+
+  inset: -5px;
+
+  border-radius: 24px;
+
+  border: 1px solid rgba(37,99,235,.20);
+
+  pointer-events: none;
+}
+
+
+/* NOM SOUS LE LOGO */
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  line-height: 1.05;
+
+  margin-top: 3px;
+}
+
+.brand-name {
+  font-size: 16px;
+
+  font-weight: 900;
+
+  letter-spacing: .2px;
+
+  color: var(--text);
+
+  white-space: nowrap;
+}
+
+
+/* MPCI SOUS LE NOM */
+
+.brand-subtitle {
+  margin-top: 4px;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 3px;
+
+  color: var(--primary);
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================
+   LIENS
+========================================= */
+
+.nav-links {
+  display: flex;
+
+  gap: 24px;
+
+  align-items: center;
+
+  margin-left: auto;
+  margin-right: 25px;
+}
+
+.nav-links a {
+  color: var(--text-light);
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  transition: .2s;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+
+/* =========================================
+   LUNE + MENU
+========================================= */
+
+.nav-actions {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+}
+
+.icon-button {
+  width: 44px;
+  height: 44px;
+
+  border: 0;
+
+  border-radius: 13px;
+
+  background: var(--surface-2);
+
+  color: var(--text);
+
+  cursor: pointer;
+
+  font-size: 17px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: .25s ease;
+}
+
+.icon-button:hover {
+  color: var(--primary);
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 18px rgba(37,99,235,.15);
+}
+
+
+/* MENU MOBILE */
+
+.menu-button {
+  display: none;
     }
-
-    body.dark header {
-      background: rgba(2,6,23,.90);
-    }
-
-    .navbar {
-      height: 75px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-
-      font-size: 19px;
-      font-weight: 900;
-    }
-
-    .brand-logo {
-      width: 44px;
-      height: 44px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 14px;
-
-      color: white;
-
-      background: linear-gradient(
-        135deg,
-        var(--primary),
-        var(--secondary)
-      );
-
-      box-shadow: 0 8px 20px rgba(37,99,235,.25);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 24px;
-      align-items: center;
-    }
-
-    .nav-links a {
-      color: var(--text-light);
-
-      font-size: 14px;
-      font-weight: 600;
-
-      transition: .2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--primary);
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .icon-button {
-      width: 42px;
-      height: 42px;
-
-      border: 0;
-      border-radius: 12px;
-
-      background: var(--surface-2);
-      color: var(--text);
-
-      cursor: pointer;
-      font-size: 17px;
-    }
-
-    .menu-button {
-      display: none;
-    }
-
-
     /* ==============================
        HERO
     ============================== */
@@ -925,116 +1051,183 @@
     /* ==============================
        MOBILE
     ============================== */
-
     @media (max-width: 850px) {
 
-      .nav-links {
-        display: none;
+  .navbar {
+    min-height: 92px;
+  }
 
-        position: absolute;
+  /* Logo toujours grand à gauche */
 
-        top: 75px;
+  .brand {
+    min-width: 105px;
 
-        left: 0;
-        right: 0;
+    align-items: center;
+  }
 
-        padding: 20px;
+  .brand-logo {
+    width: 58px;
+    height: 58px;
 
-        background: var(--surface);
+    border-radius: 17px;
 
-        border-bottom:
-          1px solid var(--border);
+    font-size: 27px;
+  }
 
-        flex-direction: column;
+  .brand-name {
+    font-size: 14px;
+  }
+
+  .brand-subtitle {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+  }
+
+
+  /* Menu caché */
+
+  .nav-links {
+    display: none;
+
+    position: absolute;
+
+    top: 92px;
+
+    left: 0;
+    right: 0;
+
+    padding: 20px;
+
+    background: var(--surface);
+
+    border-bottom:
+      1px solid var(--border);
+
+    flex-direction: column;
+
+    gap: 18px;
+
+    margin: 0;
+
+    box-shadow:
+      0 15px 30px rgba(15,23,42,.10);
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+
+  /* LUNE + 3 TRAITS */
+
+  .nav-actions {
+    gap: 7px;
+  }
+
+  .icon-button {
+    width: 42px;
+    height: 42px;
+  }
+
+  .menu-button {
+    display: flex;
+  }
+
+
+  .hero {
+    min-height: auto;
+
+    padding: 70px 0;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+
+    gap: 45px;
+  }
+
+  .hero h1 {
+    font-size: 44px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .about {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@media (max-width: 550px) {
+
+  .navbar {
+    min-height: 88px;
+  }
+
+  .brand-logo {
+    width: 55px;
+    height: 55px;
+
+    font-size: 25px;
+  }
+
+  .brand-name {
+    font-size: 13px;
+  }
+
+  .brand-subtitle {
+    font-size: 8px;
+  }
+
+  .nav-links {
+    top: 88px;
+  }
+
+  .hero h1 {
+    font-size: 38px;
+
+    letter-spacing: -1.5px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+  }
+
+  .hero-buttons,
+  .contact-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .hero-card {
+    padding: 25px 18px;
+  }
+
+  .profile-placeholder {
+    width: 140px;
+    height: 140px;
+  }
+
+  .about-box,
+  .contact-box {
+    padding: 30px 22px;
+  }
+
+  .contact-box h2 {
+    font-size: 29px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+
+    text-align: center;
+  }
       }
-
-      .nav-links.active {
-        display: flex;
-      }
-
-      .menu-button {
-        display: block;
-      }
-
-      .hero {
-        min-height: auto;
-
-        padding: 70px 0;
-      }
-
-      .hero-grid {
-        grid-template-columns: 1fr;
-
-        gap: 45px;
-      }
-
-      .hero h1 {
-        font-size: 44px;
-      }
-
-      .cards {
-        grid-template-columns: 1fr;
-      }
-
-      .about {
-        grid-template-columns: 1fr;
-      }
-    }
-
-
-    @media (max-width: 550px) {
-
-      section {
-        padding: 70px 0;
-      }
-
-      .navbar {
-        height: 65px;
-      }
-
-      .hero h1 {
-        font-size: 38px;
-
-        letter-spacing: -1.5px;
-      }
-
-      .hero-description {
-        font-size: 16px;
-      }
-
-      .hero-buttons,
-      .contact-buttons {
-        flex-direction: column;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      .hero-card {
-        padding: 25px 18px;
-      }
-
-      .profile-placeholder {
-        width: 140px;
-        height: 140px;
-      }
-
-      .about-box,
-      .contact-box {
-        padding: 30px 22px;
-      }
-
-      .contact-box h2 {
-        font-size: 29px;
-      }
-
-      .footer-content {
-        flex-direction: column;
-
-        text-align: center;
-      }
-    }
 /* =========================================
    FAQ PROFESSIONNELLE
 ========================================= */
@@ -1430,53 +1623,61 @@
   <!-- ==============================
        HEADER
   ============================== -->
-
   <header>
-    <div class="brand-logo">
-    <img src="images/logo.png" alt="Logo MPCI - Salé SIDIBÉ">
-</div>
-        <span>Salé SIDIBÉ</span>
+  <div class="container">
+    <nav class="navbar">
+
+      <!-- LOGO + NOM -->
+      <a href="#" class="brand">
+
+        <div class="brand-logo">
+          <i class="fa-solid fa-atom"></i>
+        </div>
+
+        <div class="brand-text">
+          <div class="brand-name">Salé SIDIBÉ</div>
+          <div class="brand-subtitle">MPCI</div>
+        </div>
+
       </a>
-      <nav class="nav-links" id="navLinks">
 
+
+      <!-- LIENS -->
+      <div class="nav-links" id="navLinks">
         <a href="#accueil">Accueil</a>
-
-        <a href="#apropos">À propos</a>
-
-        <a href="#matieres">Matières</a>
-
         <a href="#services">Services</a>
-
+        <a href="#apropos">À propos</a>
         <a href="#tarifs">Tarifs</a>
-
+        <a href="#faq">FAQ</a>
         <a href="#contact">Contact</a>
-<a href="cours.html" class="hover:text-blue-600">
-  Cours
-</a>
-      </nav>
-      <div class="nav-actions">
-        <button
-  class="icon-button"
-  id="themeToggle"
-  aria-label="Changer le thème">
-
-  <i class="fa-solid fa-moon" id="themeIcon"></i>
-
-        </button>
-        <button
-  class="icon-button menu-button"
-  id="menuButton"
-  aria-label="Ouvrir le menu">
-
-  <i class="fa-solid fa-bars"></i>
-
-        </button>
       </div>
 
-    </div>
 
+      <!-- LUNE + MENU -->
+      <div class="nav-actions">
+
+        <button
+          class="icon-button"
+          id="themeToggle"
+          aria-label="Changer le thème"
+          type="button">
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+
+        <button
+          class="icon-button menu-button"
+          id="menuButton"
+          aria-label="Ouvrir le menu"
+          type="button">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+      </div>
+
+    </nav>
+  </div>
   </header>
-<section id="zone-intervention" class="py-20">
+      <section id="zone-intervention" class="py-20">
 
   <main>
 
