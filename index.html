@@ -1767,73 +1767,12 @@ if (themeToggle) {
   });
 
 }
-
+</script>
 
 /* ==============================
    FAQ
 ============================== */
-
-document.querySelectorAll(".faq-question").forEach(function(question) {
-
-  question.addEventListener("click", function() {
-
-    const currentItem = question.closest(".faq-item");
-
-    document.querySelectorAll(".faq-item").forEach(function(item) {
-
-      if (item !== currentItem) {
-        item.classList.remove("active");
-      }
-
-    });
-
-    currentItem.classList.toggle("active");
-
-  });
-
-});
-
-</script>
-  <script>
-  function toggleMenu() {
-  const navLinks = document.getElementById("navLinks");
-  const menuButton = document.querySelector(".menu-button");
-  const icon = menuButton ? menuButton.querySelector("i") : null;
-
-  if (!navLinks) return;
-
-  navLinks.classList.toggle("active");
-
-  if (navLinks.classList.contains("active")) {
-    if (icon) {
-      icon.classList.remove("fa-bars");
-      icon.classList.add("fa-xmark");
-    }
-  } else {
-    if (icon) {
-      icon.classList.remove("fa-xmark");
-      icon.classList.add("fa-bars");
-    }
-  }
-}
-
-// Fermer le menu après avoir cliqué sur un lien
-document.querySelectorAll("#navLinks a").forEach(link => {
-  link.addEventListener("click", () => {
-    const navLinks = document.getElementById("navLinks");
-    const menuButton = document.querySelector(".menu-button");
-    const icon = menuButton ? menuButton.querySelector("i") : null;
-
-    navLinks.classList.remove("active");
-
-    if (icon) {
-      icon.classList.remove("fa-xmark");
-      icon.classList.add("fa-bars");
-    }
-  });
-});
-</script>
-  <script>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
 
   const faqQuestions = document.querySelectorAll(".faq-question");
@@ -1859,7 +1798,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 });
-  </script>
+</script>
 </body>
 </html>
 
