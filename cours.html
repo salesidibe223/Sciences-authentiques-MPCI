@@ -44,32 +44,19 @@
       </div>
     </div>
   </header>
-
-  <!-- HERO -->
-  <section class="bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-700 text-white">
-    <div class="max-w-7xl mx-auto px-6 py-20 text-center">
-      <p class="uppercase tracking-widest text-blue-100 font-semibold mb-4">
-        Espace d'Évaluation & Enseignement
-      </p>
-      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
-        Tests de Niveau & Cours Scientifiques
-      </h1>
-      <p class="max-w-3xl mx-auto text-lg md:text-xl text-blue-100 leading-relaxed">
-        Sélectionnez une matière, choisissez votre classe (7ᵉ, 8ᵉ ou 9ᵉ Année) et passez un <strong>test évalué sur 20 points</strong> pour tester vos connaissances.
-      </p>
-      <div class="flex flex-wrap justify-center gap-4 mt-8">
-        <a href="#mathematiques" class="bg-white text-blue-700 px-6 py-3 rounded-full font-bold hover:bg-gray-100">
-          📐 Mathématiques
-        </a>
-        <a href="#physique-chimie" class="bg-white text-blue-700 px-6 py-3 rounded-full font-bold hover:bg-gray-100">
-          ⚛️ Physique - Chimie
-        </a>
-        <a href="#informatique" class="bg-white text-blue-700 px-6 py-3 rounded-full font-bold hover:bg-gray-100">
-          💻 Informatique
-        </a>
-      </div>
-    </div>
-  </section>
+<!-- Boutons dans la section HERO -->
+<div class="flex flex-wrap justify-center gap-4 mt-8">
+  <button onclick="toggleSection('math-container'); startTest('math', '7');" class="bg-white text-blue-700 px-6 py-3 rounded-full font-bold hover:bg-gray-100">
+    📐 Mathématiques
+  </button>
+  <button onclick="toggleSection('pc-container'); startTest('pc', '7');" class="bg-white text-blue-700 px-6 py-3 rounded-full font-bold hover:bg-gray-100">
+    ⚛️ Physique - Chimie
+  </button>
+  <button onclick="toggleSection('info-container'); startTest('info', '7');" class="bg-white text-blue-700 px-6 py-3 rounded-full font-bold hover:bg-gray-100">
+    💻 Informatique
+  </button>
+</div>
+  
 
   <!-- 01 - MATHEMATIQUES -->
   <section id="mathematiques" class="py-16 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
