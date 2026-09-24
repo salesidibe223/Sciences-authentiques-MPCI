@@ -252,153 +252,503 @@
   <a href="https://wa.me/22389827200?text=Bonjour%20Sal%C3%A9%20SIDIB%C3%89" target="_blank" aria-label="Contacter Salé SIDIBÉ sur WhatsApp" class="fixed bottom-5 right-5 bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-xl text-xl hover:bg-green-700 z-50">
     WA
   </a>
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-  <!-- BANQUE DE QUESTIONS ET JAVASCRIPT POUR LES TESTS -->
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+  // Basculer la visibilité d'un conteneur
+  function toggleSection(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('hidden');
+  }
 
-    // Basculer la visibilité d'un conteneur
-    function toggleSection(id) {
-      const el = document.getElementById(id);
-      el.classList.toggle('hidden');
+  // Fonction pour mélanger un tableau (Algorithme de Fisher-Yates)
+  function shuffleArray(array) {
+    let arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
     }
+    return arr;
+  }
 
-    // Banque de données des questions (4 questions de 5 pts = 20 pts par test)
-    const quizData = {
-      math: {
-        '7': [
-          { q: "Quelle est la valeur de (-8) + (+5) ?", options: ["-13", "-3", "3", "13"], answer: 1 },
-          { q: "Combien vaut 3/4 + 1/2 ?", options: ["4/6", "5/4", "1", "3/8"], answer: 1 },
-          { q: "Si x + 7 = 12, alors x vaut :", options: ["19", "5", "-5", "84"], answer: 1 },
-          { q: "Un périmètre d'un carré de côté 6 cm est de :", options: ["12 cm", "36 cm", "24 cm", "18 cm"], answer: 2 }
-        ],
-        '8': [
-          { q: "Développer l'expression 3(2x - 4) :", options: ["6x - 4", "6x - 12", "5x - 7", "6x + 12"], answer: 1 },
-          { q: "Calculer (-4) x (-3) - 5 :", options: ["7", "-17", "17", "-7"], answer: 0 },
-          { q: "Dans un triangle rectangle, l'égalite du théorème de Pythagore s'applique sur :", options: ["L'hypoténuse", "Le petit côté", "La hauteur", "Tous les côtés"], answer: 0 },
-          { q: "Résoudre l'équation 2x - 6 = 10 :", options: ["x = 2", "x = 4", "x = 8", "x = 16"], answer: 2 }
-        ],
-        '9': [
-          { q: "Développer (x + 3)² :", options: ["x² + 9", "x² + 6x + 9", "x² + 3x + 9", "2x + 6"], answer: 1 },
-          { q: "Factoriser x² - 16 :", options: ["(x - 4)²", "(x - 8)(x + 8)", "(x - 4)(x + 4)", "(x + 4)²"], answer: 2 },
-          { q: "Si f(x) = 3x - 5, alors f(2) vaut :", options: ["1", "-1", "11", "6"], answer: 0 },
-          { q: "Calculer √81 + √16 :", options: ["97", "13", "12", "35"], answer: 1 }
-        ]
-      },
-      pc: {
-        '7': [
-          { q: "Quel est le symbole chimique de l'eau ?", options: ["CO2", "H2O", "O2", "NaCl"], answer: 1 },
-          { q: "L'unité de mesure de la masse dans le système international est :", options: ["Le gramme", "Le kilogramme", "Le litre", "Le Newton"], answer: 1 },
-          { q: "L'air est principalement composé de :", options: ["Dioxygène et Azote", "Dioxyde de carbone", "Hydrogène", "Vapeur d'eau"], answer: 0 },
-          { q: "Le passage de l'état liquide à l'état gazeux s'appelle :", options: ["La fusion", "La vaporisation", "La solidification", "La condensation"], answer: 1 }
-        ],
-        '8': [
-          { q: "L'unité de mesure de l'intensité du courant électrique est :", options: ["Le Volt", "L'Ampère", "L'Ohm", "Le Watt"], answer: 1 },
-          { q: "La formule de la masse volumique est :", options: ["ρ = m / V", "ρ = m x V", "ρ = V / m", "ρ = m + V"], answer: 0 },
-          { q: "Un pH égal à 2 indique une solution :", options: ["Neutre", "Basique", "Acide", "Alcaline"], answer: 2 },
-          { q: "Quel appareil mesure une tension électrique ?", options: ["Ampèremètre", "Voltmètre", "Ohmmètre", "Baromètre"], answer: 1 }
-        ],
-        '9': [
-          { q: "Quelle est la loi d'Ohm ?", options: ["U = R / I", "U = R x I", "P = U x I", "I = R x U"], answer: 1 },
-          { q: "La vitesse moyenne est donnée par la formule :", options: ["v = d x t", "v = d / t", "v = t / d", "v = d + t"], answer: 1 },
-          { q: "Symbole chimique du fer :", options: ["Fe", "F", "Fr", "Fi"], answer: 0 },
-          { q: "Le poids d'un corps se calcule par P = m x g. L'unité du poids P est :", options: ["Kg", "N/kg", "Newton (N)", "Joule"], answer: 2 }
-        ]
-      },
-      info: {
-        '7': [
-          { q: "Quel composant est considéré comme le cerveau de l'ordinateur ?", options: ["Le disque dur", "Le processeur (CPU)", "La mémoire RAM", "L'écran"], answer: 1 },
-          { q: "Lequel est un système d'exploitation ?", options: ["Google Chrome", "Windows", "Microsoft Word", "Facebook"], answer: 1 },
-          { q: "Que signifie 'RAM' ?", options: ["Read Access Memory", "Random Access Memory", "Run Action Mode", "Rapid Access Module"], answer: 1 },
-          { q: "Quelle touche permet de supprimer du texte à gauche du curseur ?", options: ["Suppr", "Espace", "Retour arrière (Backspace)", "Entrée"], answer: 2 }
-        ],
-        '8': [
-          { q: "En HTML, quelle balise est utilisée pour créer un titre principal ?", options: ["<p>", "<h1>", "<a>", "<div>"], answer: 1 },
-          { q: "Quel raccourci permet de copier un texte sous Windows ?", options: ["Ctrl + V", "Ctrl + C", "Ctrl + X", "Ctrl + Z"], answer: 1 },
-          { q: "Une adresse IP sert à :", options: ["Mesurer le processeur", "Identifier un appareil sur un réseau", "Nettoyer le disque", "Sauvegarder un fichier"], answer: 1 },
-          { q: "Lequel est un logiciel de traitement de texte ?", options: ["Excel", "Microsoft Word", "PowerPoint", "Photoshop"], answer: 1 }
-        ],
-        '9': [
-          { q: "Que signifie le sigle HTML ?", options: ["HyperText Markup Language", "High Technical Modern Language", "Hyper Transfer Main Link", "Home Tool Markup Logic"], answer: 0 },
-          { q: "En programmation Web, le langage CSS sert à :", options: ["Créer la structure", "Styliser et mettre en page", "Gérer la base de données", "Calculer des algorithmes"], answer: 1 },
-          { q: "Un mégaoctet (Mo) équivaut environ à :", options: ["1000 Octets", "1024 Kilooctets (Ko)", "1 Gigaoctet (Go)", "8 Bits"], answer: 1 },
-          { q: "Lequel est un protocole sécurisé pour le Web ?", options: ["HTTP", "HTTPS", "FTP", "SMTP"], answer: 1 }
-        ]
+  // BANQUE DE DATA : 40 QUESTIONS PAR MATIÈRE ET PAR CLASSE (2 Pts par question = 20 Pts)
+  const quizData = {
+    math: {
+      '7': [
+        { q: "Quelle est la valeur de (-8) + (+5) ?", options: ["-13", "-3", "3", "13"], answer: 1 },
+        { q: "Combien vaut 3/4 + 1/2 ?", options: ["4/6", "5/4", "1", "3/8"], answer: 1 },
+        { q: "Si x + 7 = 12, alors x vaut :", options: ["19", "5", "-5", "84"], answer: 1 },
+        { q: "Le périmètre d'un carré de côté 6 cm est de :", options: ["12 cm", "36 cm", "24 cm", "18 cm"], answer: 2 },
+        { q: "Calculer (-4) × (-3) :", options: ["-12", "12", "-7", "7"], answer: 1 },
+        { q: "L'aire d'un rectangle de longueur 8 cm et largeur 5 cm est :", options: ["26 cm²", "40 cm²", "13 cm²", "85 cm²"], answer: 1 },
+        { q: "Combien vaut 15% de 200 ?", options: ["15", "30", "45", "20"], answer: 1 },
+        { q: "Quelle est la fraction simplifiée de 12/18 ?", options: ["6/9", "2/3", "3/4", "1/2"], answer: 1 },
+        { q: "Un angle droit mesure :", options: ["180°", "45°", "90°", "360°"], answer: 2 },
+        { q: "La somme des angles d'un triangle est égale à :", options: ["90°", "180°", "360°", "270°"], answer: 1 },
+        { q: "Quelle est la valeur de 7 - (-3) ?", options: ["4", "-4", "10", "-10"], answer: 2 },
+        { q: "Convertir 2,5 kg en grammes :", options: ["25 g", "250 g", "2500 g", "0,25 g"], answer: 2 },
+        { q: "Le tiers de 90 est :", options: ["30", "45", "15", "60"], answer: 0 },
+        { q: "Si un côté d'un triangle équilatéral mesure 5 cm, son périmètre est :", options: ["10 cm", "15 cm", "20 cm", "25 cm"], answer: 1 },
+        { q: "Quel est l'opposé de -14 ?", options: ["-14", "14", "1/14", "0"], answer: 1 },
+        { q: "Combien vaut 2³ ?", options: ["6", "8", "9", "16"], answer: 1 },
+        { q: "Calculer 5 + 3 × 4 :", options: ["32", "17", "20", "23"], answer: 1 },
+        { q: "Une heure contient combien de secondes ?", options: ["60 s", "600 s", "3600 s", "1200 s"], answer: 2 },
+        { q: "Le rayon d'un cercle mesure 4 cm, son diamètre est :", options: ["2 cm", "8 cm", "16 cm", "12 cm"], answer: 1 },
+        { q: "Simplifier l'expression a + a + a :", options: ["a³", "3a", "3+a", "a+3"], answer: 1 },
+        { q: "Combien vaut (-5) × (+2) ?", options: ["10", "-10", "-3", "3"], answer: 1 },
+        { q: "Résoudre x - 4 = 10 :", options: ["x = 6", "x = 14", "x = -6", "x = 40"], answer: 1 },
+        { q: "La moitié de 3/4 est :", options: ["3/8", "3/2", "6/4", "1/4"], answer: 0 },
+        { q: "Deux droites qui ne se coupent jamais sont :", options: ["Perpendiculaires", "Parallèles", "Sécantes", "Confondues"], answer: 1 },
+        { q: "Le double de 0,75 est :", options: ["1,25", "1,5", "1,75", "2"], answer: 1 },
+        { q: "Calculer 10² :", options: ["20", "100", "1000", "10"], answer: 1 },
+        { q: "Quel est le plus grand nombre parmi : -5, -2, -8, -1 ?", options: ["-8", "-5", "-2", "-1"], answer: 3 },
+        { q: "Un triangle qui a 2 côtés égaux est appelé :", options: ["Équilatéral", "Isocèle", "Rectangle", "Scalène"], answer: 1 },
+        { q: "Combien font 0 × 125 ?", options: ["125", "0", "1", "12,5"], answer: 1 },
+        { q: "Calculer 1/2 + 1/4 :", options: ["2/6", "3/4", "2/4", "1/6"], answer: 1 },
+        { q: "Quel est l'inverse de 5 ?", options: ["-5", "1/5", "0,5", "5/1"], answer: 1 },
+        { q: "Dans un repère, l'axe horizontal est l'axe des :", options: ["Ordonnées", "Abscisses", "Altitudes", "Origines"], answer: 1 },
+        { q: "Un angle mesurant 120° est un angle :", options: ["Aigu", "Droit", "Obtus", "Plat"], answer: 2 },
+        { q: "Calculer 100 - 35,5 :", options: ["65,5", "64,5", "74,5", "55,5"], answer: 1 },
+        { q: "Si 3 stylos coûtent 600 FCFA, combien coûte 1 stylo ?", options: ["100 FCFA", "200 FCFA", "300 FCFA", "150 FCFA"], answer: 1 },
+        { q: "Combien de côtés a un hexagone ?", options: ["5", "6", "8", "10"], answer: 1 },
+        { q: "Calculer (-10) ÷ (-2) :", options: ["-5", "5", "-20", "20"], answer: 1 },
+        { q: "L'écriture décimale de 3/10 est :", options: ["0,03", "0,3", "3,0", "0,003"], answer: 1 },
+        { q: "La valeur absolue de -9 est :", options: ["-9", "9", "0", "1/9"], answer: 1 },
+        { q: "Quelle est la formule de l'aire d'un carré de côté c ?", options: ["4 × c", "c × c", "c + c", "2 × c"], answer: 1 }
+      ],
+      '8': [
+        { q: "Développer l'expression 3(2x - 4) :", options: ["6x - 4", "6x - 12", "5x - 7", "6x + 12"], answer: 1 },
+        { q: "Calculer (-4) × (-3) - 5 :", options: ["7", "-17", "17", "-7"], answer: 0 },
+        { q: "Dans un triangle rectangle, l'égalité du théorème de Pythagore s'applique sur :", options: ["L'hypoténuse", "Le petit côté", "La hauteur", "Tous les côtés"], answer: 0 },
+        { q: "Résoudre l'équation 2x - 6 = 10 :", options: ["x = 2", "x = 4", "x = 8", "x = 16"], answer: 2 },
+        { q: "Calculer 5³ :", options: ["15", "125", "25", "75"], answer: 1 },
+        { q: "Simplifier l'expression 4x + 7x - 2x :", options: ["9x", "11x", "9x²", "13x"], answer: 0 },
+        { q: "Si un triangle rectangle a pour côtés 3 cm et 4 cm, son hypoténuse mesure :", options: ["5 cm", "7 cm", "6 cm", "25 cm"], answer: 0 },
+        { q: "Développer (x + 5)(x + 2) :", options: ["x² + 10", "x² + 7x + 10", "x² + 10x + 7", "2x + 7"], answer: 1 },
+        { q: "Quelle est l'écriture scientifique de 45 000 ?", options: ["45 × 10³", "4,5 × 10⁴", "0,45 × 10⁵", "4,5 × 10³"], answer: 1 },
+        { q: "Résoudre 3x = -15 :", options: ["x = 5", "x = -5", "x = -12", "x = -45"], answer: 1 },
+        { q: "Factoriser 5x + 10 :", options: ["5(x + 2)", "5(x + 10)", "x(5 + 10)", "10(x + 1)"], answer: 0 },
+        { q: "Que vaut a⁰ (pour a ≠ 0) ?", options: ["0", "1", "a", "Indéterminé"], answer: 1 },
+        { q: "Simplifier (a³)² :", options: ["a⁵", "a⁶", "a⁹", "a¹"], answer: 1 },
+        { q: "Calculer 10⁻² :", options: ["-100", "0,01", "0,1", "-0,02"], answer: 1 },
+        { q: "Développer -2(x - 3) :", options: ["-2x - 6", "-2x + 6", "2x - 6", "-2x + 3"], answer: 1 },
+        { q: "Un produit de deux nombres de même signe est toujours :", options: ["Négatif", "Positif", "Nul", "Égal à 1"], answer: 1 },
+        { q: "Calculer la moyenne de 12, 14, 16 :", options: ["13", "14", "15", "12"], answer: 1 },
+        { q: "Dans un triangle, la médiane passe par un sommet et :", options: ["Le milieu du côté opposé", "Le tiers du côté opposé", "Perpendiculairement au côté", "L'angle opposé"], answer: 0 },
+        { q: "Résoudre 4x + 2 = 2x + 10 :", options: ["x = 2", "x = 4", "x = 6", "x = 8"], answer: 1 },
+        { q: "Combien fait 2/3 ÷ 4/5 ?", options: ["8/15", "10/12", "5/6", "6/5"], answer: 2 },
+        { q: "Calculer √64 :", options: ["6", "8", "16", "32"], answer: 1 },
+        { q: "Si la vitesse est v = d/t, alors la distance d est égale à :", options: ["v / t", "v × t", "t / v", "v + t"], answer: 1 },
+        { q: "Développer (2x + 3)² :", options: ["4x² + 9", "4x² + 12x + 9", "2x² + 6x + 9", "4x² + 6x + 9"], answer: 1 },
+        { q: "Quelle est l'image de 3 par la fonction f(x) = 2x - 1 ?", options: ["4", "5", "6", "7"], answer: 1 },
+        { q: "Factoriser x² - 9 :", options: ["(x - 3)²", "(x - 3)(x + 3)", "(x - 9)(x + 1)", "(x + 3)²"], answer: 1 },
+        { q: "Si un carré a une aire de 49 cm², son côté mesure :", options: ["7 cm", "14 cm", "9,8 cm", "24,5 cm"], answer: 0 },
+        { q: "La somme de deux nombres opposés est égale à :", options: ["1", "0", "-1", "Leur carré"], answer: 1 },
+        { q: "Calculer (-1)¹⁰⁰ :", options: ["-100", "-1", "1", "100"], answer: 2 },
+        { q: "L'aire d'un disque de rayon R est :", options: ["2 × π × R", "π × R²", "π × R", "4 × π × R²"], answer: 1 },
+        { q: "Résoudre -x = 7 :", options: ["x = 7", "x = -7", "x = 1/7", "x = 0"], answer: 1 },
+        { q: "Simplifier a⁴ × a³ :", options: ["a¹²", "a⁷", "a¹", "a⁻¹"], answer: 1 },
+        { q: "Quel est le coefficient directeur de la droite y = 4x - 2 ?", options: ["-2", "4", "2", "-4"], answer: 1 },
+        { q: "Si a/b = c/d, alors :", options: ["a × c = b × d", "a × d = b × c", "a + d = b + c", "a - b = c - d"], answer: 1 },
+        { q: "Combien fait (-3)³ ?", options: ["-9", "27", "-27", "9"], answer: 2 },
+        { q: "Dans un triangle rectangle, le cosinus d'un angle aigu vaut :", options: ["Opposé / Hypoténuse", "Adjacent / Hypoténuse", "Opposé / Adjacent", "Hypoténuse / Adjacent"], answer: 1 },
+        { q: "Si un article de 10 000 FCFA subit une réduction de 20%, son nouveau prix est :", options: ["2 000 FCFA", "8 000 FCFA", "8 500 FCFA", "9 800 FCFA"], answer: 1 },
+        { q: "Factoriser 3x² + 6x :", options: ["3x(x + 2)", "3(x² + 2)", "x(3x + 6)", "6x(x + 1)"], answer: 0 },
+        { q: "Calculer 2⁴ :", options: ["8", "16", "32", "64"], answer: 1 },
+        { q: "L'ordonnée à l'origine de la droite y = -3x + 5 est :", options: ["-3", "5", "3", "-5"], answer: 1 },
+        { q: "Calculer (-2) × (+3) × (-4) :", options: ["-24", "24", "-12", "12"], answer: 1 }
+      ],
+      '9': [
+        { q: "Développer (x + 3)² :", options: ["x² + 9", "x² + 6x + 9", "x² + 3x + 9", "2x + 6"], answer: 1 },
+        { q: "Factoriser x² - 16 :", options: ["(x - 4)²", "(x - 8)(x + 8)", "(x - 4)(x + 4)", "(x + 4)²"], answer: 2 },
+        { q: "Si f(x) = 3x - 5, alors f(2) vaut :", options: ["1", "-1", "11", "6"], answer: 0 },
+        { q: "Calculer √81 + √16 :", options: ["97", "13", "12", "35"], answer: 1 },
+        { q: "Résoudre l'équation (x - 2)(x + 5) = 0 :", options: ["x = 2 et x = 5", "x = -2 et x = 5", "x = 2 et x = -5", "x = -2 et x = -5"], answer: 2 },
+        { q: "Dans le théorème de Thalès, si (AB) // (CD), les longueurs des côtés sont :", options: ["Égales", "Proportionnelles", "Inverses", "Perpendiculaires"], answer: 1 },
+        { q: "Calculer tan(45°) :", options: ["0", "0,5", "1", "√3"], answer: 2 },
+        { q: "Développer (2x - 1)(2x + 1) :", options: ["4x² - 1", "4x² + 1", "2x² - 1", "4x² - 4x + 1"], answer: 0 },
+        { q: "Résoudre 2x + 3 > 7 :", options: ["x > 2", "x < 2", "x > 5", "x < 5"], answer: 0 },
+        { q: "La forme factorisée de a² + 2ab + b² est :", options: ["(a - b)²", "(a + b)²", "(a - b)(a + b)", "a(a + b)"], answer: 1 },
+        { q: "Simplifier √50 :", options: ["2√5", "5√2", "25√2", "10√5"], answer: 1 },
+        { q: "Quelle est la racine carrée de 144 ?", options: ["11", "12", "14", "16"], answer: 1 },
+        { q: "Une fonction affine est de la forme :", options: ["f(x) = ax²", "f(x) = ax + b", "f(x) = a/x", "f(x) = ax³"], answer: 1 },
+        { q: "Calculer cos(60°) :", options: ["0", "1/2", "√2/2", "√3/2"], answer: 1 },
+        { q: "Quel est le PGCD de 24 et 36 ?", options: ["6", "12", "18", "24"], answer: 1 },
+        { q: "Si f(x) = -2x, f est une fonction :", options: ["Affine non linéaire", "Linéaire", "Constante", "Du second degré"], answer: 1 },
+        { q: "Résoudre x² = 25 :", options: ["x = 5 uniquement", "x = -5 uniquement", "x = 5 ou x = -5", "x = 625"], answer: 2 },
+        { q: "Développer (3x - 2)² :", options: ["9x² - 4", "9x² - 12x + 4", "9x² + 12x + 4", "6x² - 12x + 4"], answer: 1 },
+        { q: "Dans un repère, la pente d'une droite horizontale est :", options: ["1", "0", "Infinie", "-1"], answer: 1 },
+        { q: "Si sin(A) = 0,5, alors l'angle A mesure :", options: ["30°", "45°", "60°", "90°"], answer: 0 },
+        { q: "Simplifier √12 × √3 :", options: ["√36 = 6", "√15", "36", "3√4"], answer: 0 },
+        { q: "Factoriser 4x² - 20x + 25 :", options: ["(2x + 5)²", "(2x - 5)²", "(4x - 5)²", "(2x - 25)²"], answer: 1 },
+        { q: "Résoudre le système : x + y = 10 et x - y = 2 :", options: ["x=6, y=4", "x=5, y=5", "x=7, y=3", "x=8, y=2"], answer: 0 },
+        { q: "Quelle est l'antécédent de 9 par f(x) = 3x ?", options: ["27", "3", "1/3", "6"], answer: 1 },
+        { q: "Simplifier la fraction 84/120 :", options: ["7/10", "42/60", "14/20", "3/5"], answer: 0 },
+        { q: "Un triangle inscrit dans un cercle dont un côté est le diamètre est :", options: ["Isocèle", "Équilatéral", "Rectangle", "Cylindrique"], answer: 2 },
+        { q: "Calculer √18 + √8 :", options: ["√26", "5√2", "6√2", "13√2"], answer: 1 },
+        { q: "Factoriser (x + 1)(2x - 3) + (x + 1)(x + 5) :", options: ["(x + 1)(3x + 2)", "(x + 1)(x - 2)", "(x + 1)(3x - 2)", "(2x + 2)(3x + 2)"], answer: 0 },
+        { q: "Si sin²(x) + cos²(x) = ?", options: ["0", "1", "2", "tan(x)"], answer: 1 },
+        { q: "Une réduction d'échelle 1/500 signifie que 1 cm représente :", options: ["5 m", "50 m", "500 m", "0,5 m"], answer: 0 },
+        { q: "Si le discriminant Δ > 0, l'équation ax² + bx + c = 0 a :", options: ["0 solution", "1 solution", "2 solutions", "Infiniment de solutions"], answer: 2 },
+        { q: "Résoudre -3x ≤ 9 :", options: ["x ≤ -3", "x ≥ -3", "x ≤ 3", "x ≥ 3"], answer: 1 },
+        { q: "Calculer la distance entre A(1;2) et B(4;6) :", options: ["3", "4", "5", "7"], answer: 2 },
+        { q: "Si l'aire d'une figure est multipliée par un rapport k = 3, sa nouvelle aire est multipliée par :", options: ["3", "6", "9", "27"], answer: 2 },
+        { q: "L'expression x² + 4 = 0 admet dans ℝ :", options: ["2 solutions", "1 solution", "Aucune solution", "Une infinité de solutions"], answer: 2 },
+        { q: "Factoriser x³ - x :", options: ["x(x² - 1)", "x(x - 1)(x + 1)", "x²(x - 1)", "Les options A et B sont exactes"], answer: 3 },
+        { q: "Quelle est la médiane de la série : 3, 7, 8, 12, 14 ?", options: ["7", "8", "8,8", "12"], answer: 1 },
+        { q: "Quelle est la formule du volume d'une sphère ?", options: ["4/3 × π × R³", "4 × π × R²", "π × R² × h", "1/3 × π × R²"], answer: 0 },
+        { q: "Calculer (√7)² :", options: ["49", "7", "√14", "14"], answer: 1 },
+        { q: "Si f(x) = 5, f est une fonction :", options: ["Linéaire", "Constante", "Affine non constante", "Nulle"], answer: 1 }
+      ]
+    },
+    pc: {
+      '7': [
+        { q: "Quel est le symbole chimique de l'eau ?", options: ["CO2", "H2O", "O2", "NaCl"], answer: 1 },
+        { q: "L'unité de mesure de la masse dans le système international est :", options: ["Le gramme", "Le kilogramme", "Le litre", "Le Newton"], answer: 1 },
+        { q: "L'air est principalement composé de :", options: ["Dioxygène et Azote", "Dioxyde de carbone", "Hydrogène", "Vapeur d'eau"], answer: 0 },
+        { q: "Le passage de l'état liquide à l'état gazeux s'appelle :", options: ["La fusion", "La vaporisation", "La solidification", "La condensation"], answer: 1 },
+        { q: "Quel instrument utilise-t-on pour mesurer la masse ?", options: ["Une éprouvette", "Une balance", "Un thermomètre", "Une règle"], answer: 1 },
+        { q: "Quel est le symbole chimique du dioxyde de carbone ?", options: ["CO", "CO2", "C2O", "O2"], answer: 1 },
+        { q: "L'eau bout à la pression atmosphérique normale à :", options: ["0 °C", "50 °C", "100 °C", "120 °C"], answer: 2 },
+        { q: "L'unité légale du volume est :", options: ["Le litre", "Le mètre cube (m³)", "Le milligramme", "Le centimètre"], answer: 1 },
+        { q: "La solidification est le passage de :", options: ["Solide à liquide", "Liquide à solide", "Gaz à liquide", "Solide à gaz"], answer: 1 },
+        { q: "Un mélange dont on ne distingue pas les constituants à l'œil nu est :", options: ["Hétérogène", "Homogène", "Insoluble", "Compensé"], answer: 1 },
+        { q: "Quel est le symbole chimique de l'oxygène (dioxygène) ?", options: ["O", "O2", "Oz", "Ox"], answer: 1 },
+        { q: "Quel instrument mesure le volume d'un liquide avec précision ?", options: ["Le bécher", "L'éprouvette graduée", "La balance", "Le tube à essai"], answer: 1 },
+        { q: "L'eau se congèle à :", options: ["100 °C", "10 °C", "0 °C", "-100 °C"], answer: 2 },
+        { q: "Le composant le plus abondant dans l'atmosphère terrestre est :", options: ["Le dioxygène", "Le diazote", "Le dioxyde de carbone", "L'argon"], answer: 1 },
+        { q: "L'huile et l'eau forment un mélange :", options: ["Homogène", "Hétérogène", "Dissous", "Pur"], answer: 1 },
+        { q: "Quel est l'état physique de la vapeur d'eau ?", options: ["Solide", "Liquide", "Gazeux", "Plasma"], answer: 2 },
+        { q: "L'opération qui permet de séparer les constituants d'un mélange hétérogène à l'aide d'un filtre est :", options: ["La décantation", "La filtration", "La distillation", "L'évaporation"], answer: 1 },
+        { q: "La masse de 1 litre d'eau pure est égale à :", options: ["100 g", "500 g", "1 kg", "2 kg"], answer: 2 },
+        { q: "La buée sur une vitre est due à :", options: ["La fusion", "La condensation (liquéfaction)", "La sublimation", "La congélation"], answer: 1 },
+        { q: "Un corps pur est constitué :", options: ["D'une seule espèce chimique", "De deux liquides", "De plusieurs mélanges", "D'eau et de sel"], answer: 0 },
+        { q: "Le sel se dissout dans l'eau. Le sel est le :", options: ["Solvant", "Soluté", "Mélange hétérogène", "Filtrat"], answer: 1 },
+        { q: "L'eau constitue le solvant, le mélange obtenu avec un soluté est une :", options: ["Distillation", "Solution aqueuse", "Suspension", "Fusion"], answer: 1 },
+        { q: "Quel gaz trouble l'eau de chaux ?", options: ["Le dioxygène", "Le dioxyde de carbone", "Le diazote", "L'hydrogène"], answer: 1 },
+        { q: "Quel gaz rallume une étincelle ?", options: ["Le dioxygène", "Le dioxyde de carbone", "L'azote", "Le méthane"], answer: 0 },
+        { q: "Le passage directement de l'état solide à l'état gazeux est :", options: ["La fusion", "La sublimation", "La vaporisation", "La condensation"], answer: 1 },
+        { q: "L'unité de température usuelle en Afrique est le degré :", options: ["Fahrenheit", "Kelvin", "Celsius", "Joule"], answer: 2 },
+        { q: "La décantation permet de séparer :", options: ["Deux liquides immiscibles", "L'eau et le sel dissous", "La vapeur et l'air", "Deux gaz"], answer: 0 },
+        { q: "Pour mesurer la masse d'un liquide, il faut d'abord effectuer :", options: ["La tare du récipient", "La filtration", "Le chauffage", "Le calcul du pH"], answer: 0 },
+        { q: "Quel est le symbole du carbone ?", options: ["Ca", "C", "Co", "Cr"], answer: 1 },
+        { q: "Quel est le symbole de l'azote ?", options: ["A", "Az", "N", "Na"], answer: 2 },
+        { q: "Un liquide a :", options: ["Une forme propre", "Un volume propre", "Ni forme ni volume propre", "Une forme fixe"], answer: 1 },
+        { q: "Un gaz a :", options: ["Une forme propre", "Un volume propre", "Ni forme propre ni volume propre", "Une surface plane et horizontale"], answer: 2 },
+        { q: "Un solide compact a :", options: ["Une forme propre", "La forme du récipient", "Une surface toujours liquide", "Un volume variable"], answer: 0 },
+        { q: "Comment appelle-t-on le liquide obtenu après une filtration ?", options: ["Le résidu", "Le filtrat", "Le soluté", "Le solvant"], answer: 1 },
+        { q: "Le passage de l'état solide à l'état liquide est :", options: ["La fusion", "La solidification", "La vaporisation", "La condensation"], answer: 0 },
+        { q: "L'eau douce représente environ quel pourcentage de l'eau totale sur Terre ?", options: ["97%", "50%", "3%", "10%"], answer: 2 },
+        { q: "Combien de millilitres (mL) y a-t-il dans 1 Litre ?", options: ["10 mL", "100 mL", "1000 mL", "10000 mL"], answer: 2 },
+        { q: "Le mélange d'eau et de sable est :", options: ["Homogène", "Hétérogène", "Limpide", "Soluble"], answer: 1 },
+        { q: "Une solution qui ne peut plus dissoudre de soluté est dite :", options: ["Diluée", "Concentrée", "Saturée", "Pure"], answer: 2 },
+        { q: "Lors d'un changement d'état d'un corps pur, la température :", options: ["Aumente", "Diminue", "Reste constante", "S'annule"], answer: 2 }
+      ],
+      '8': [
+        { q: "L'unité de mesure de l'intensité du courant électrique est :", options: ["Le Volt", "L'Ampère", "L'Ohm", "Le Watt"], answer: 1 },
+        { q: "La formule de la masse volumique est :", options: ["ρ = m / V", "ρ = m × V", "ρ = V / m", "ρ = m + V"], answer: 0 },
+        { q: "Un pH égal à 2 indique une solution :", options: ["Neutre", "Basique", "Acide", "Alcaline"], answer: 2 },
+        { q: "Quel appareil mesure une tension électrique ?", options: ["Ampèremètre", "Voltmètre", "Ohmmètre", "Baromètre"], answer: 1 },
+        { q: "L'unité de mesure de la résistance électrique est :", options: ["L'Ohm (Ω)", "Le Volt (V)", "L'Ampère (A)", "Le Watt (W)"], answer: 0 },
+        { q: "Dans un montage en série, si une lampe grille :", options: ["Les autres restent allumées", "Les autres s'éteignent", "La tension augmente", "Le courant augmente"], answer: 1 },
+        { q: "Une solution neutre a un pH égal à :", options: ["0", "7", "14", "10"], answer: 1 },
+        { q: "L'appareil de mesure de l'intensité électrique se branche en :", options: ["Série", "Dérivation (parallèle)", "Transversal", "Oblique"], answer: 0 },
+        { q: "Quelle est la formule de la tension aux bornes d'un conducteur ohmique (Loi d'Ohm) ?", options: ["U = R / I", "U = R × I", "I = R × U", "R = U × I"], answer: 1 },
+        { q: "L'unité de puissance électrique est :", options: ["Le Joule", "Le Watt", "Le Volt", "L'Ampère"], answer: 1 },
+        { q: "Un pH égal à 11 indique une solution :", options: ["Acide", "Neutre", "Basique", "Pure"], answer: 2 },
+        { q: "Le voltmètre se branche en :", options: ["Série", "Dérivation (parallèle)", "En boucle simple", "N'importe comment"], answer: 1 },
+        { q: "Quel est le symbole de l'atome de Fer ?", options: ["Fe", "F", "Fr", "Fi"], answer: 0 },
+        { q: "Quel est le symbole de l'atome de Cuivre ?", options: ["C", "Cu", "Cr", "Co"], answer: 1 },
+        { q: "Un atome est composé d'un noyau et de :", options: ["Protons isolés", "Molecules", "Électrons", "Neutrons libres"], answer: 2 },
+        { q: "Les électrons possèdent une charge électrique :", options: ["Positive", "Négative", "Neutre", "Variable"], answer: 1 },
+        { q: "Le noyau de l'atome a une charge électrique :", options: ["Négative", "Positive", "Neutre", "Nulle"], answer: 1 },
+        { q: "Un ion positif est appelé :", options: ["Anion", "Cation", "Proton", "Neutron"], answer: 1 },
+        { q: "Un ion négatif est appelé :", options: ["Anion", "Cation", "Isotope", "Positon"], answer: 0 },
+        { q: "La formule chimique de la molécule de méthane est :", options: ["CH4", "CO2", "C2H6", "NH3"], answer: 0 },
+        { q: "Quelle est la masse d'un corps de masse volumique 2 g/cm³ et de volume 10 cm³ ?", options: ["5 g", "20 g", "12 g", "8 g"], answer: 1 },
+        { q: "Le cortège électronique d'un atome neutre comporte autant d'électrons que le noyau comporte de :", options: ["Neutrons", "Protons", "Nucleons", "Molécules"], answer: 1 },
+        { q: "Dans un circuit en dérivation, la tension aux bornes des récepteurs est :", options: ["Différente", "Égale", "Nulle", "Inversée"], answer: 1 },
+        { q: "Pour mesurer la résistance d'un composant hors circuit, on utilise :", options: ["Un voltmètre", "Un ohmmètre", "Un ampèremètre", "Un wattmètre"], answer: 1 },
+        { q: "L'unité de l'énergie électrique dans le système international est :", options: ["Le Watt", "Le Joule", "Le Kilowattheure", "Le Volt"], answer: 1 },
+        { q: "1 kWh équivaut à combien de Joules ?", options: ["1000 J", "3 600 J", "3 600 000 J", "60 000 J"], answer: 2 },
+        { q: "Quel est le symbole de l'aluminium ?", options: ["Al", "A", "Am", "Au"], answer: 0 },
+        { q: "Quel est le symbole de l'or ?", options: ["Or", "Au", "Ag", "Ar"], answer: 1 },
+        { q: "Quel est le symbole de l'argent ?", options: ["Ar", "Ag", "Al", "Au"], answer: 1 },
+        { q: "Lors d'une réaction chimique, la masse totale des réactifs est :", options: ["Supérieure aux produits", "Égale à la masse des produits", "Inférieure aux produits", "Nulle"], answer: 1 },
+        { q: "La combustion nécessite toujours la présence d'un :", options: ["Combustible", "Comburant", "Catalyseur", "Les deux (combustible et comburant)"], answer: 3 },
+        { q: "Dans l'air, le principal comburant d'une combustion est :", options: ["Le diazote", "Le dioxygène", "Le dioxyde de carbone", "L'argon"], answer: 1 },
+        { q: "Une combustion incomplète d'hydrocarbures produit un gaz toxique mortel appelé :", options: ["Dioxyde de carbone", "Monoxyde de carbone (CO)", "Diazote", "Hydrogène"], answer: 1 },
+        { q: "La formule P = U × I permet de calculer :", options: ["La résistance", "La puissance électrique", "L'énergie", "La tension"], answer: 1 },
+        { q: "Un corps qui laisse passer le courant électrique est un :", options: ["Isolant", "Conducteur", "Résistant", "Diélectrique"], answer: 1 },
+        { q: "Lequel est un bon conducteur électrique ?", options: ["Le verre", "Le plastique", "Le cuivre", "Le bois sec"], answer: 2 },
+        { q: "Lequel est un isolant électrique ?", options: ["L'aluminium", "Le fer", "Le caoutchouc", "L'eau salée"], answer: 2 },
+        { q: "L'atome de carbone a pour symbole C et possède 6 protons. Combien a-t-il d'électrons ?", options: ["12", "6", "3", "0"], answer: 1 },
+        { q: "Quelle est la couleur du test de présence d'eau avec le sulfate de cuivre anhydre ?", options: ["Rouge", "Bleu", "Vert", "Jaune"], answer: 1 },
+        { q: "L'action du papier pH sur une solution de soude (NaOH) donne une couleur bleue. La solution est :", options: ["Acide", "Basique", "Neutre", "Incolore"], answer: 1 }
+      ],
+      '9': [
+        { q: "Quelle est la loi d'Ohm ?", options: ["U = R / I", "U = R × I", "P = U × I", "I = R × U"], answer: 1 },
+        { q: "La vitesse moyenne est donnée par la formule :", options: ["v = d × t", "v = d / t", "v = t / d", "v = d + t"], answer: 1 },
+        { q: "Symbole chimique du fer :", options: ["Fe", "F", "Fr", "Fi"], answer: 0 },
+        { q: "Le poids d'un corps se calcule par P = m × g. L'unité du poids P est :", options: ["Kg", "N/kg", "Newton (N)", "Joule"], answer: 2 },
+        { q: "L'intensité de la pesanteur g sur Terre vaut environ :", options: ["9,8 N/kg", "10 m/s", "1,6 N/kg", "100 N/kg"], answer: 0 },
+        { q: "Quelle est la formule de l'énergie cinétique ?", options: ["Ec = m × v", "Ec = 1/2 × m × v²", "Ec = m × g × h", "Ec = P × t"], answer: 1 },
+        { q: "L'énergie potentielle de pesanteur dépend de :", options: ["La vitesse", "La hauteur et de la masse", "La température", "Le courant"], answer: 1 },
+        { q: "Un travail mécanique W d'une force se calcule par :", options: ["W = F / d", "W = F × d", "W = F + d", "W = P × t"], answer: 1 },
+        { q: "L'unité du travail et de l'énergie dans le SI est :", options: ["Le Watt", "Le Newton", "Le Joule (J)", "Le Pascal"], answer: 2 },
+        { q: "La formule de la puissance mécanique est :", options: ["P = W / t", "P = W × t", "P = F / v", "P = m × g"], answer: 0 },
+        { q: "La masse d'un objet varie-t-elle si on le transporte sur la Lune ?", options: ["Oui, elle diminue", "Oui, elle augmente", "Non, elle reste constante", "Elle devient nulle"], answer: 2 },
+        { q: "Le poids d'un objet sur la Lune est-il le même que sur la Terre ?", options: ["Oui", "Non, il est plus faible sur la Lune", "Non, il est plus grand sur la Lune", "Il est nul sur Terre"], answer: 1 },
+        { q: "Quel appareil utilise-t-on pour mesurer une force ou un poids ?", options: ["Une balance", "Un dynamomètre", "Un manomètre", "Un densimètre"], answer: 1 },
+        { q: "La formule E = P × t permet de calculer :", options: ["La tension", "L'énergie électrique", "La résistance", "L'intensité"], answer: 1 },
+        { q: "L'unité de la pression dans le SI est :", options: ["Le Bar", "Le Pascal (Pa)", "L'Atmosphère", "Le Newton"], answer: 1 },
+        { q: "La pression P exercée par une force F sur une surface S est :", options: ["P = F × S", "P = F / S", "P = S / F", "P = F + S"], answer: 1 },
+        { q: "Une solution dont le pH est égal à 7 contient autant d'ions H+ que d'ions :", options: ["OH- (hydroxide)", "Na+", "Cl-", "Fe2+"], answer: 0 },
+        { q: "La réaction entre un acide et une base s'appelle une réaction de :", options: ["Combustion", "Neutralisation", "Oxydation", "Réduction"], answer: 1 },
+        { q: "L'oxydation du fer à l'air humide produit de la rouille, dont la formule est principalement :", options: ["Fe2O3", "FeO", "Fe3O4", "FeCl3"], answer: 0 },
+        { q: "La combustion du carbone produit du dioxyde de carbone. La réaction bilan s'écrit :", options: ["C + O2 → CO2", "2C + O → C2O", "C + CO → CO2", "CH4 + O2 → CO2"], answer: 0 },
+        { q: "Pour se protéger de la rouille, on peut recouvrir le fer de zinc. C'est la :", options: ["Distillation", "Galvanisation", "Electrolyse", "FUSION"], answer: 1 },
+        { q: "Quel ion est responsable de l'acidité d'une solution ?", options: ["L'ion hydrogène (H+)", "L me ion hydroxide (OH-)", "L'ion Sodium (Na+)", "L'ion Chloride (Cl-)"], answer: 0 },
+        { q: "Quel ion est responsable de la basicité d'une solution ?", options: ["L'ion H+", "L'ion Hydroxyde (OH-)", "L'ion Fer II", "L'ion Cuivre II"], answer: 1 },
+        { q: "L'addition d'eau dans une solution acide (dilution) fait :", options: ["Baisser le pH vers 0", "Augmenter le pH vers 7", "Rester le pH identique", "Monter le pH à 14"], answer: 1 },
+        { q: "Dans un mouvement rectiligne uniforme, la vitesse est :", options: ["Variable", "Constante et la trajectoire est une droite", "Nulle", "Augmentante"], answer: 1 },
+        { q: "Un véhicule parcourt 120 km en 2 heures. Sa vitesse moyenne est :", options: ["60 km/h", "240 km/h", "100 km/h", "50 km/h"], answer: 0 },
+        { q: "Convertir 10 m/s en km/h :", options: ["3,6 km/h", "36 km/h", "100 km/h", "1,0 km/h"], answer: 1 },
+        { q: "Quelle est la valeur de la force d'attraction gravitationnelle si les masses augmentent ?", options: ["Elle diminue", "Elle augmente", "Elle ne change pas", "Elle devient nulle"], answer: 1 },
+        { q: "L'électrolyse de l'eau produit du dioxygène et :", options: ["Du dioxyde de carbone", "Du dihydrogène (H2)", "Du monoxyde d'azote", "Du chlore"], answer: 1 },
+        { q: "Le volume de dihydrogène produit lors de l'électrolyse de l'eau est par rapport à celui du dioxygène :", options: ["Le double", "La moitié", "Égal", "Le triple"], answer: 0 },
+        { q: "La formule de l'acide chlorhydrique est :", options: ["(H+ + Cl-)", "(2H+ + SO42-)", "(Na+ + OH-)", "HNO3"], answer: 0 },
+        { q: "L'action de l'acide chlorhydrique sur le fer produit du gaz dihydrogène et des ions :", options: ["Fer II (Fe2+)", "Fer III (Fe3+)", "Cuivre (Cu2+)", "Zinc (Zn2+)"], answer: 0 },
+        { q: "Comment met-on en évidence le gaz dihydrogène (H2) ?", options: ["Trouble l'eau de chaux", "Rallume une étincelle", "Pétille à l'approche d'une flamme (détonation)", "Colore en bleu"], answer: 2 },
+        { q: "La trajectoire d'un objet en chute libre sans vitesse initiale est :", options: ["Une parabole", "Une ligne droite verticale", "Un cercle", "Une courbe quelconque"], answer: 1 },
+        { q: "Un solide est en équilibre sous l'action de deux forces si ces forces ont :", options: ["Même intensité, même direction et sens opposés", "Même sens et même intensité", "Des directions perpendiculaires", "Des intensités différentes"], answer: 0 },
+        { q: "L'alchimie ancienne a donné naissance à quelle science moderne ?", options: ["La physique quantique", "La chimie", "La biologie", "L'astronomie"], answer: 1 },
+        { q: "Quel est le symbole du Zinc ?", options: ["Z", "Zn", "Zi", "Zc"], answer: 1 },
+        { q: "Quelle est la formule de la quantité de chaleur Q ?", options: ["Q = m × c × (Tf - Ti)", "Q = m / V", "Q = P × t", "Q = F × d"], answer: 0 },
+        { q: "La puissance consommée par un appareil de résistance R traversé par un courant I est :", options: ["P = R × I²", "P = R / I", "P = R² × I", "P = U / I"], answer: 0 },
+        { q: "La poussée d'Archimède est une force exercée par un fluide orientée vers :", options: ["Le bas", "Le haut", "La droite", "La gauche"], answer: 1 }
+      ]
+    },
+    info: {
+      '7': [
+        { q: "Quel composant est considéré comme le cerveau de l'ordinateur ?", options: ["Le disque dur", "Le processeur (CPU)", "La mémoire RAM", "L'écran"], answer: 1 },
+        { q: "Lequel est un système d'exploitation ?", options: ["Google Chrome", "Windows", "Microsoft Word", "Facebook"], answer: 1 },
+        { q: "Que signifie 'RAM' ?", options: ["Read Access Memory", "Random Access Memory", "Run Action Mode", "Rapid Access Module"], answer: 1 },
+        { q: "Quelle touche permet de supprimer du texte à gauche du curseur ?", options: ["Suppr", "Espace", "Retour arrière (Backspace)", "Entrée"], answer: 2 },
+        { q: "Lequel est un périphérique de sortie ?", options: ["Le clavier", "La souris", "L'imprimante", "Le scanner"], answer: 2 },
+        { q: "Lequel est un périphérique d'entrée ?", options: ["L'écran", "Les haut-parleurs", "Le clavier", "L'imprimante"], answer: 2 },
+        { q: "Que signifie USB ?", options: ["Universal Serial Bus", "United System Base", "Ultra Speed Binary", "User Server Board"], answer: 0 },
+        { q: "Où sont stockés vos fichiers de manière permanente ?", options: ["Mémoire RAM", "Disque dur (SSD/HDD)", "Processeur", "Carte réseau"], answer: 1 },
+        { q: "Quelle touche permet de valider une commande ou passer à la ligne ?", options: ["Échap", "Entrée", "Tabulation", "Majuscule"], answer: 1 },
+        { q: "Lequel est un navigateur Web ?", options: ["Windows 11", "Google Chrome", "Excel", "Android"], answer: 1 },
+        { q: "Que permet de faire la combinaison de touches Ctrl + C ?", options: ["Coller", "Couper", "Copier", "Imprimer"], answer: 2 },
+        { q: "Que permet de faire la combinaison de touches Ctrl + V ?", options: ["Copier", "Coller", "Annuler", "Sauvegarder"], answer: 1 },
+        { q: "Quel outil permet de pointer et cliquer sur des éléments à l'écran ?", options: ["Le clavier", "La souris", "Le microphone", "Le scanner"], answer: 1 },
+        { q: "Que signifie le sigle 'To' en informatique ?", options: ["Téraoctet", "Téraoctet", "Térabit", "Total Octet"], answer: 0 },
+        { q: "Combien de bits y a-t-il dans un Octet ?", options: ["2", "4", "8", "16"], answer: 2 },
+        { q: "Lequel est un logiciel anti-virus ?", options: ["Avast", "Word", "VLC", "PowerPoint"], answer: 0 },
+        { q: "Quelle touche annule une action ou ferme une fenêtre contextuelle ?", options: ["Entrée", "Échap (Esc)", "Ctrl", "Alt"], answer: 1 },
+        { q: "Pour éteindre correctement un ordinateur, il faut :", options: ["Débrancher la prise", "Appuyer 10 sec sur le bouton", "Passer par le menu Démarrer > Éteindre", "Fermer l'écran"], answer: 2 },
+        { q: "Un fichier avec l'extension '.mp3' est un fichier :", options: ["Texte", "Image", "Audio (Musique)", "Vidéo"], answer: 2 },
+        { q: "Un fichier avec l'extension '.jpg' ou '.png' est :", options: ["Une image", "Un son", "Un programme", "Un document texte"], answer: 0 },
+        { q: "Lequel est un système d'exploitation pour smartphone ?", options: ["Android", "Windows Word", "Google Search", "Chrome OS"], answer: 0 },
+        { q: "Que signifie Wi-Fi ?", options: ["Wireless Fidelity", "Wired Fiber", "Windows Filter", "Web Format"], answer: 0 },
+        { q: "Quel symbole est obligatoire dans une adresse e-mail ?", options: ["#", "@", "&", "$"], answer: 1 },
+        { q: "À quoi sert un scanner ?", options: ["Imprimer un document", "Numériser un document papier vers l'ordinateur", "Projeter l'écran", "Saisir du texte"], answer: 1 },
+        { q: "Lequel est un support de stockage portable ?", options: ["La clé USB", "La mémoire cache", "Le processeur", "La carte mère"], answer: 0 },
+        { q: "Quel logiciel permet de lire des vidéos ?", options: ["VLC Media Player", "Microsoft Paint", "Bloc-notes", "Calculatrice"], answer: 0 },
+        { q: "Pour sélectionner tout le texte d'un document sous Windows :", options: ["Ctrl + A", "Ctrl + S", "Ctrl + P", "Ctrl + F"], answer: 0 },
+        { q: "Que fait le raccourci Ctrl + Z ?", options: ["Annuler la dernière action", "Refaire", "Zommer", "Fermer"], answer: 0 },
+        { q: "La Corbeille sur l'ordinateur sert à :", options: ["Stocker les virus", "Ranger les images", "Conserver temporairement les fichiers supprimés", "Nettoyer l'écran"], answer: 2 },
+        { q: "Quel composant relie tous les éléments internes de l'ordinateur ?", options: ["La carte mère", "Le disque externe", "L'alimentation", "Le boîtier"], answer: 0 },
+        { q: "Que veut dire TI en informatique ?", options: ["Technologies de l'Information", "Traitement Industriel", "Transmission Interne", "Technique d'Impression"], answer: 0 },
+        { q: "Quelle touche permet d'écrire en majuscules en continu ?", options: ["Verr Maj (Caps Lock)", "Tab", "Espace", "Alt Gr"], answer: 0 },
+        { q: "Un octet représente la quantité de mémoire pour stocker :", options: ["Un caractère (lettre/chiffre)", "Une image HD", "Une chanson", "Un mot entier"], answer: 0 },
+        { q: "Lequel n'est pas un matériel (Hardware) ?", options: ["La souris", "L'écran", "Windows 10", "Le clavier"], answer: 2 },
+        { q: "Lequel est un logiciel (Software) ?", options: ["L'imprimante", "Microsoft Excel", "Le disque dur", "La mémoire RAM"], answer: 1 },
+        { q: "Où se trouve la barre des tâches par défaut dans Windows ?", options: ["En haut", "En bas de l'écran", "À gauche", "À droite"], answer: 1 },
+        { q: "Pour enregistrer un document, quel est le raccourci classique ?", options: ["Ctrl + S", "Ctrl + E", "Ctrl + O", "Ctrl + N"], answer: 0 },
+        { q: "Qu'est-ce qu'un bug ?", options: ["Un insecte dans le clavier", "Une erreur dans un programme informatique", "Un nouveau matériel", "Une vitesse rapide"], answer: 1 },
+        { q: "Un réseau informatique sert à :", options: ["Refroidir l'ordinateur", "Échanger des informations entre ordinateurs", "Augmenter la taille du moniteur", "Fabriquer des puces"], answer: 1 },
+        { q: "Que signifie le mot 'Byte' en anglais ?", options: ["Un bit", "Un Octet", "Un Gigaoctet", "Un Megabit"], answer: 1 }
+      ],
+      '8': [
+        { q: "En HTML, quelle balise est utilisée pour créer un titre principal ?", options: ["<p>", "<h1>", "<a>", "<div>"], answer: 1 },
+        { q: "Quel raccourci permet de copier un texte sous Windows ?", options: ["Ctrl + V", "Ctrl + C", "Ctrl + X", "Ctrl + Z"], answer: 1 },
+        { q: "Une adresse IP sert à :", options: ["Mesurer le processeur", "Identifier un appareil sur un réseau", "Nettoyer le disque", "Sauvegarder un fichier"], answer: 1 },
+        { q: "Lequel est un logiciel de traitement de texte ?", options: ["Excel", "Microsoft Word", "PowerPoint", "Photoshop"], answer: 1 },
+        { q: "Dans Excel, quelle formule calcule la somme des cellules A1 à A5 ?", options: ["=SOMME(A1:A5)", "=ADDITION(A1;A5)", "=A1+A5", "=TOTAL(A1:A5)"], answer: 0 },
+        { q: "Quelle est la balise HTML pour créer un lien hypertexte ?", options: ["<link>", "<a>", "<url>", "<href>"], answer: 1 },
+        { q: "Que signifie le sigle 'URL' ?", options: ["Uniform Resource Locator", "Universal Radio Link", "User Response Line", "United Resource List"], answer: 0 },
+        { q: "Quel langage permet de structurer le contenu d'une page Web ?", options: ["HTML", "CSS", "Python", "C++"], answer: 0 },
+        { q: "Quelle extension identifie un document Word ?", options: [".xlsx", ".docx", ".pdf", ".txt"], answer: 1 },
+        { q: "Dans un tableau Excel, l'intersection d'une ligne et d'une colonne s'appelle :", options: ["Un champ", "Une cellule", "Un bloc", "Un curseur"], answer: 1 },
+        { q: "Quelle balise HTML permet d'insérer une image ?", options: ["<image>", "<img>", "<picture>", "<src>"], answer: 1 },
+        { q: "Lequel est un moteur de recherche ?", options: ["Google", "Firefox", "Windows", "Outlook"], answer: 0 },
+        { q: "Que signifie le protocole 'HTTP' ?", options: ["HyperText Transfer Protocol", "High Text Technical Process", "Home Transfer Text Page", "Hyperlink Text Test Process"], answer: 0 },
+        { q: "Quelle balise HTML est utilisée pour un saut de ligne ?", options: ["<lb>", "<br>", "<break>", "<p>"], answer: 1 },
+        { q: "Dans Excel, la formule =MOYENNE(B1:B10) calcule :", options: ["La valeur maximale", "La moyenne des valeurs", "Le nombre de cellules", "La médiane"], answer: 1 },
+        { q: "Quel raccourci permet de couper du texte ?", options: ["Ctrl + C", "Ctrl + X", "Ctrl + K", "Ctrl + P"], answer: 1 },
+        { q: "Quelle est la fonction d'un routeur Wi-Fi ?", options: ["Stocker des photos", "Acheminer les paquets de données entre réseaux", "Afficher des sites Web", "Scanner des documents"], answer: 1 },
+        { q: "Lequel est un format de fichier compressé ?", options: [".zip", ".exe", ".html", ".mp4"], answer: 0 },
+        { q: "En HTML, la balise <p> sert à créer :", options: ["Un paragraphe", "Une photo", "Un projet", "Une page"], answer: 0 },
+        { q: "Quelle balise englobe tout le contenu visible d'une page HTML ?", options: ["<head>", "<body>", "<html>", "<main>"], answer: 1 },
+        { q: "Que contient la balise HTML <head> ?", options: ["Les paragraphes", "Les méta-données et le titre de la page", "Les images", "Les boutons"], answer: 1 },
+        { q: "Quel logiciel est spécialisé dans la création de présentations diapositive ?", options: ["Excel", "Microsoft PowerPoint", "Word", "Access"], answer: 1 },
+        { q: "Quelle extension possède un fichier Excel ?", options: [".docx", ".xlsx", ".pptx", ".pdf"], answer: 1 },
+        { q: "Dans PowerPoint, chaque page de présentation s'appelle :", options: ["Une feuille", "Une diapositive (slide)", "Une cellule", "Un calque"], answer: 1 },
+        { q: "Lequel est un réseau social professionnel ?", options: ["TikTok", "LinkedIn", "Snapchat", "WhatsApp"], answer: 1 },
+        { q: "Pour imprimer un document, quel raccourci est utilisé ?", options: ["Ctrl + P", "Ctrl + I", "Ctrl + M", "Ctrl + D"], answer: 0 },
+        { q: "Qu'est-ce que le Phishing (Hameçonnage) ?", options: ["Une technique d'optimisation PC", "Une fraude visant à voler des informations personnelles", "Un jeu vidéo", "Un langage Web"], answer: 1 },
+        { q: "Quel est le rôle d'un pare-feu (Firewall) ?", options: ["Bloquer les accès non autorisés au réseau", "Nettoyer la poussière du PC", "Accélérer Internet", "Sauvegarder les fichiers"], answer: 0 },
+        { q: "Un réseau local au sein d'une école ou maison est appelé :", options: ["LAN", "WAN", "MAN", "PAN"], answer: 0 },
+        { q: "Un réseau mondial étendu comme Internet est un :", options: ["LAN", "WAN", "RAM", "ROM"], answer: 1 },
+        { q: "Quelle balise HTML permet d'installer une liste à puces non ordonnée ?", options: ["<ol>", "<ul>", "<li>", "<list>"], answer: 1 },
+        { q: "Quelle balise désigne un élément dans une liste HTML ?", options: ["<item>", "<li>", "<el>", "<line>"], answer: 1 },
+        { q: "L'extension d'un document au format universel non modifiable facilement est :", options: [".pdf", ".txt", ".html", ".docx"], answer: 0 },
+        { q: "Pour mettre un texte en gras en HTML, on peut utiliser la balise :", options: ["<b> ou <strong>", "<i>", "<u>", "<bold>"], answer: 0 },
+        { q: "Pour mettre un texte en italique en HTML :", options: ["<i> ou <em>", "<b>", "<it>", "<style>"], answer: 0 },
+        { q: "Que signifie le sigle 'PDF' ?", options: ["Portable Document Format", "Personal Data File", "Printed Document Factory", "Public Digital Format"], answer: 0 },
+        { q: "Dans un tableau Excel, que signifie la formule =MAX(A1:A20) ?", options: ["Affiche la somme", "Affiche la valeur la plus grande", "Affiche la valeur la plus petite", "Affiche le nombre d'éléments"], answer: 1 },
+        { q: "Quelle touche permet de passer d'une cellule à la suivante dans Excel ?", options: ["Entrée", "Tabulation", "Espace", "Échap"], answer: 1 },
+        { q: "Quel est l'élément qui permet de relier plusieurs ordinateurs en câble RJ45 ?", options: ["Un Switch / Commutateur", "Un écran", "Une imprimante", "Un scanner"], answer: 0 },
+        { q: "Un cloud (ex: Google Drive, OneDrive) permet de :", options: ["Stocker des fichiers sur des serveurs distants via Internet", "Nettoyer l'ordinateur", "Imprimer sans encre", "Naviguer hors ligne"], answer: 0 }
+      ],
+      '9': [
+        { q: "Que signifie le sigle HTML ?", options: ["HyperText Markup Language", "High Technical Modern Language", "Hyper Transfer Main Link", "Home Tool Markup Logic"], answer: 0 },
+        { q: "En programmation Web, le langage CSS sert à :", options: ["Créer la structure", "Styliser et mettre en page", "Gérer la base de données", "Calculer des algorithmes"], answer: 1 },
+        { q: "Un mégaoctet (Mo) équivaut environ à :", options: ["1000 Octets", "1024 Kilooctets (Ko)", "1 Gigaoctet (Go)", "8 Bits"], answer: 1 },
+        { q: "Lequel est un protocole sécurisé pour le Web ?", options: ["HTTP", "HTTPS", "FTP", "SMTP"], answer: 1 },
+        { q: "Quel langage est principalement exécuté dans le navigateur pour rendre la page interactive ?", options: ["PHP", "JavaScript", "SQL", "Python"], answer: 1 },
+        { q: "En CSS, comment cible-t-on un élément avec l'identifiant 'monTitre' ?", options: [".monTitre", "#monTitre", "*monTitre", "id.monTitre"], answer: 1 },
+        { q: "En CSS, comment cible-t-on tous les éléments ayant la classe 'carte' ?", options: [".carte", "#carte", "class.carte", "@carte"], answer: 0 },
+        { q: "Quelle est la propriété CSS pour changer la couleur du texte ?", options: ["text-color", "color", "font-color", "background-color"], answer: 1 },
+        { q: "Quelle propriété CSS change la couleur de fond ?", options: ["color", "background-color", "bg-color", "fill-style"], answer: 1 },
+        { q: "Que signifie SQL ?", options: ["Structured Query Language", "Simple Question Logic", "System Quality Link", "Sequential Query List"], answer: 0 },
+        { q: "A quoi sert le langage SQL ?", options: ["Mettre en page un site", "Créer des animations", "Interroger et gérer des bases de données", "Configurer des routeurs"], answer: 2 },
+        { q: "Dans Tailwind CSS, quelle classe donne une couleur de texte bleue ?", options: ["color-blue", "text-blue-600", "font-blue", "style-blue"], answer: 1 },
+        { q: "Qu'est-ce qu'un algorithme ?", options: ["Un composant informatique", "Une suite d'instructions ordonnées pour résoudre un problème", "Un ordinateur portable", "Un virus puissant"], answer: 1 },
+        { q: "En algorithmique, quelle structure permet de répéter des instructions ?", options: ["Une condition (SI)", "Une boucle (POUR / TANT QUE)", "Une variable", "Un affichage"], answer: 1 },
+        { q: "Qu'est-ce qu'une variable en programmation ?", options: ["Un espace mémoire nommé contenant une valeur pouvant changer", "Un écran fixe", "Une erreur de code", "Une constante absolue"], answer: 0 },
+        { q: "Lequel est un langage de programmation côté serveur (Backend) ?", options: ["HTML", "CSS", "PHP", "Bootstrap"], answer: 2 },
+        { q: "Que signifie DNS ?", options: ["Domain Name System", "Digital Network Server", "Direct Node Service", "Data Network Storage"], answer: 0 },
+        { q: "Le rôle principal d'un serveur DNS est de :", options: ["Convertir un nom de domaine (ex: google.com) en adresse IP", "Sécuriser le mot de passe", "Télécharger des vidéos", "Formater le disque"], answer: 0 },
+        { q: "En JS, quelle commande affiche un message dans la console du navigateur ?", options: ["print()", "console.log()", "echo()", "write()"], answer: 1 },
+        { q: "Comment déclare-t-on une variable réassignable en JavaScript moderne ?", options: ["var ou let", "const uniquement", "int", "dim"], answer: 0 },
+        { q: "Quelle constante JavaScript empêche la réassignation de la variable ?", options: ["let", "const", "var", "static"], answer: 1 },
+        { q: "Que signifie le sigle 'IP' dans Adresse IP ?", options: ["Internet Protocol", "Internal Process", "Information Page", "Interactive Program"], answer: 0 },
+        { q: "En Git, quelle commande permet de cloner un dépôt distant sur son PC ?", options: ["git clone", "git pull", "git push", "git copy"], answer: 0 },
+        { q: "Quelle plateforme d'hébergement de code source utilise Git ?", options: ["GitHub", "WordPress", "Photoshop", "Google Docs"], answer: 0 },
+        { q: "Que veut dire Responsive Web Design ?", options: ["Un site qui se traduit automatiquement", "Un site qui s'adapte à la taille de tous les écrans (Mobile, Tablette, PC)", "Un site qui charge rapidement", "Un site sécurisé"], answer: 1 },
+        { q: "Dans la suite des octets, combien de Megaoctets (Mo) font 1 Gigaoctet (Go) ?", options: ["100 Mo", "1024 Mo", "10 000 Mo", "8 Mo"], answer: 1 },
+        { q: "Quelle balise HTML permet de lier une feuille de style CSS externe ?", options: ["<script>", "<link rel='stylesheet' href='...'>", "<style>", "<css>"], answer: 1 },
+        { q: "Quelle balise HTML permet d'insérer du code JavaScript ?", options: ["<js>", "<script>", "<javascript>", "<code_js>"], answer: 1 },
+        { q: "Quelle fonction JavaScript permet d'afficher une boîte d'alerte pop-up ?", options: ["alert()", "msg()", "popup()", "notice()"], answer: 0 },
+        { q: "Que signifie l'architecture Client-Serveur ?", options: ["Un client achète un serveur", "Le client (navigateur) envoie des requêtes au serveur qui renvoie des réponses", "Deux ordinateurs sans réseau", "Un programme imprimante"], answer: 1 },
+        { q: "Quelle est la différence entre HTTP et HTTPS ?", options: ["HTTPS est plus rapide", "HTTPS chiffre les données transmises (sécurisé)", "HTTP est payant", "Il n'y a aucune différence"], answer: 1 },
+        { q: "Quel symbole est utilisé en JavaScript pour vérifier l'égalité stricte de valeur et de type ?", options: ["=", "==", "===", "=>"], answer: 2 },
+        { q: "En CSS, quelle propriété permet de modifier la taille de la police ?", options: ["text-size", "font-size", "font-style", "size"], answer: 1 },
+        { q: "Quelle classe Tailwind CSS permet de centrer du texte ?", options: ["align-center", "text-center", "center-text", "flex-center"], answer: 1 },
+        { q: "Qu'est-ce qu'une base de données relationnelle ?", options: ["Une liste de fichiers texte", "Une base où les données sont organisées en tables liées entre elles", "Un dossier d'images", "Un réseau Wi-Fi"], answer: 1 },
+        { q: "En HTML5, quelle balise sémantique est idéale pour le pied de page ?", options: ["<bottom>", "<footer>", "<end>", "<base>"], answer: 1 },
+        { q: "En HTML5, quelle balise sémantique est idéale pour l'en-tête ?", options: ["<top>", "<header>", "<head>", "<nav>"], answer: 1 },
+        { q: "Que signifie le sigle 'API' ?", options: ["Application Programming Interface", "Advanced Protocol Internet", "Automated Process Integration", "Applied Program Identification"], answer: 0 },
+        { q: "Lequel est un framework/bibliothèque CSS populaire ?", options: ["Tailwind CSS", "React", "Node.js", "MySQL"], answer: 0 },
+        { q: "Quel est le rôle du fichier 'index.html' dans un projet Web ?", options: ["C'est la page d'accueil par défaut du site", "C'est la base de données", "C'est le fichier de style", "C'est un fichier image"], answer: 0 }
+      ]
+    }
+  };
+
+  let activeState = {};
+           // Fonction pour démarrer le test avec tirage aléatoire de 10 questions parmi les 40
+  function startTest(subject, level) {
+    const boxId = `quiz-box-${subject}`;
+    const box = document.getElementById(boxId);
+    box.classList.remove('hidden');
+
+    let allQuestions = quizData[subject][level];
+    
+    // Mélange complet de la banque de 40 questions
+    let shuffled = shuffleArray(allQuestions);
+    
+    // Sélection stricte de 10 questions (10 questions × 2 pts = 20 pts)
+    let selectedQuestions = shuffled.slice(0, 10);
+
+    activeState[subject] = { level, questions: selectedQuestions };
+
+    let html = `<div class="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700 flex flex-wrap justify-between items-center gap-2">
+      <h3 class="text-xl font-bold text-blue-600">Test ${subject.toUpperCase()} - ${level}ᵉ Année</h3>
+      <span class="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 px-3 py-1.5 rounded-full font-bold">10 questions × 2 pts = 20 Pts</span>
+    </div>`;
+
+    selectedQuestions.forEach((qObj, index) => {
+      html += `<div class="mb-6 bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-800">
+        <p class="font-semibold text-base md:text-lg mb-3 text-gray-800 dark:text-gray-100">
+          <span class="inline-block bg-blue-600 text-white text-xs px-2 py-1 rounded mr-2 font-bold">Q${index + 1}</span>
+          ${qObj.q} <span class="text-xs font-normal text-blue-600 dark:text-blue-400 ml-1">(2 pts)</span>
+        </p>
+        <div class="grid gap-2">`;
+      
+      qObj.options.forEach((opt, optIdx) => {
+        html += `<label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer transition">
+          <input type="radio" name="q_${subject}_${index}" value="${optIdx}" class="w-4 h-4 text-blue-600">
+          <span class="text-sm md:text-base">${opt}</span>
+        </label>`;
+      });
+      
+      html += `</div></div>`;
+    });
+
+    html += `<div class="mt-8 flex flex-wrap gap-4">
+      <button onclick="submitTest('${subject}')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3.5 rounded-xl transition shadow-lg w-full md:w-auto">
+        Valider et voir la note sur 20
+      </button>
+      <button onclick="startTest('${subject}', '${level}')" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-6 py-3.5 rounded-xl transition w-full md:w-auto">
+        🔄 Changer de série (Nouveau tirage)
+      </button>
+    </div>
+    <div id="result-${subject}" class="mt-6"></div>`;
+
+    box.innerHTML = html;
+    box.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Validation du test et calcul de la note sur 20 points
+  function submitTest(subject) {
+    const state = activeState[subject];
+    if (!state) return;
+
+    let score = 0;
+    const total = state.questions.length * 2; // 10 x 2 = 20 Pts
+
+    state.questions.forEach((qObj, index) => {
+      const selected = document.querySelector(`input[name="q_${subject}_${index}"]:checked`);
+      if (selected && parseInt(selected.value) === qObj.answer) {
+        score += 2;
       }
-    };
+    });
 
-    let activeState = {};
+    const resultBox = document.getElementById(`result-${subject}`);
+    let color = score >= 10 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
+    let appreciation = score >= 16 ? "🏆 Excellent travail !" : score >= 10 ? "👍 Bon travail !" : "⚠️ Des révisions sont nécessaires.";
 
-    // Fonction pour générer le test aléatoire
-    function startTest(subject, level) {
-      const boxId = `quiz-box-${subject}`;
-      const box = document.getElementById(boxId);
-      box.classList.remove('hidden');
-
-      let questions = quizData[subject][level];
-      // Melange aléatoire des questions
-      questions = [...questions].sort(() => Math.random() - 0.5);
-
-      activeState[subject] = { level, questions };
-
-      let html = `<div class="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-        <h3 class="text-xl font-bold text-blue-600">Test ${subject.toUpperCase()} - ${level}ᵉ Année (Barème: 20 Pts)</h3>
-        <span class="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 px-3 py-1 rounded-full font-semibold">4 questions x 5 pts</span>
-      </div>`;
-
-      questions.forEach((qObj, index) => {
-        html += `<div class="mb-6">
-          <p class="font-semibold text-lg mb-3">${index + 1}. ${qObj.q} <span class="text-sm font-normal text-gray-500">(5 pts)</span></p>
-          <div class="grid gap-2">`;
-        qObj.options.forEach((opt, optIdx) => {
-          html += `<label class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer transition">
-            <input type="radio" name="q_${subject}_${index}" value="${optIdx}" class="w-4 h-4 text-blue-600">
-            <span>${opt}</span>
-          </label>`;
-        });
-        html += `</div></div>`;
-      });
-
-      html += `<div class="mt-8 flex flex-wrap gap-4">
-        <button onclick="submitTest('${subject}')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-xl transition">
-          Valider et voir la note sur 20
-        </button>
-      </div>
-      <div id="result-${subject}" class="mt-6"></div>`;
-
-      box.innerHTML = html;
-      box.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // Validation et correction
-    function submitTest(subject) {
-      const state = activeState[subject];
-      if (!state) return;
-
-      let score = 0;
-      let total = state.questions.length * 5;
-
-      state.questions.forEach((qObj, index) => {
-        const selected = document.querySelector(`input[name="q_${subject}_${index}"]:checked`);
-        if (selected && parseInt(selected.value) === qObj.answer) {
-          score += 5;
-        }
-      });
-
-      const resultBox = document.getElementById(`result-${subject}`);
-      let color = score >= 10 ? "text-green-600" : "text-red-600";
-      let appreciation = score >= 16 ? "Excellent travail !" : score >= 10 ? "Bon travail !" : "Des révisions sont nécessaires.";
-
-      resultBox.innerHTML = `
-        <div class="p-6 rounded-2xl bg-gray-100 dark:bg-gray-700 text-center">
-          <h4 class="text-2xl font-extrabold mb-2">Résultat du test : <span class="${color}">${score} / ${total}</span></h4>
-          <p class="text-gray-700 dark:text-gray-200 font-medium">${appreciation}</p>
-          <a href="https://wa.me/22389827200?text=Bonjour%20Sal%C3%A9%20SIDIB%C3%89%2C%20j%27ai%20obtenu%20la%20note%20de%20${score}%2F20%20au%20test%20de%20${subject.toUpperCase()}%20(${state.level}%C3%AAme%20Ann%C3%A9e)." target="_blank" class="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-2.5 rounded-full transition">
+    resultBox.innerHTML = `
+      <div class="p-6 rounded-2xl bg-gray-100 dark:bg-gray-700 text-center border-2 border-blue-500/30">
+        <h4 class="text-2xl font-extrabold mb-2">Résultat du test : <span class="${color}">${score} / ${total}</span></h4>
+        <p class="text-gray-700 dark:text-gray-200 font-medium mb-4">${appreciation}</p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a href="https://wa.me/22389827200?text=Bonjour%20Sal%C3%A9%20SIDIB%C3%89%2C%20j%27ai%20obtenu%20la%20note%20de%20${score}%2F20%20au%20test%20de%20${subject.toUpperCase()}%20(${state.level}%C3%AAme%20Ann%C3%A9e)." 
+             target="_blank" 
+             class="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-full transition shadow-md">
             Envoyer mon résultat à Salé SIDIBÉ sur WhatsApp
           </a>
+          <button onclick="startTest('${subject}', '${state.level}')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-full transition shadow-md">
+            Repasser un autre test (Nouvelles questions)
+          </button>
         </div>
-      `;
-    }
+      </div>
+    `;
+    resultBox.scrollIntoView({ behavior: 'smooth' });
+                                                                                }
   </script>
 </body>
 </html>
