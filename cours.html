@@ -23,6 +23,25 @@
     body { font-family: 'Inter', sans-serif; }
     html { scroll-behavior: smooth; }
   </style>
+  <style>
+  body { 
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background-color: #ffffff;
+    color: #111827;
+  }
+  html { 
+    scroll-behavior: smooth; 
+    -webkit-text-size-adjust: 100%;
+  }
+  /* Correction pour les boutons sur Safari iOS */
+  button, input, select, textarea {
+    -webkit-appearance: none;
+    appearance: none;
+    font-family: inherit;
+  }
+  </style>
+  
 </head>
 <body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-white">
 
