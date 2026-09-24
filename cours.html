@@ -261,15 +261,74 @@
     el.classList.toggle('hidden');
   }
 
-  // Fonction pour mélanger un tableau (Algorithme de Fisher-Yates)
-  function shuffleArray(array) {
-    let arr = [...array];
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
+    // Fonction pour démarrer le test avec affichage automatique
+  function startTest(subject, level) {
+    // 1. Rendre le conteneur parent visible s'il était caché
+    const parentContainer = document.getElementById(`${subject}-container`);
+    if (parentContainer) {
+      parentContainer.classList.remove('hidden');
     }
-    return arr;
+
+    // 2. Récupérer et afficher la boîte du quiz
+    const boxId = `quiz-box-${subject}`;
+    const box = document.getElementById(boxId);
+    if (!box) return;
+    
+    box.classList.remove('hidden');
+
+    // 3. Récupérer les questions du sujet et du niveau
+    let allQuestions = quizData[subject] ? quizData[subject][level] : null;
+    if (!allQuestions) {
+      alert("Aucune question trouvée pour ce niveau.");
+      return;
+    }
+
+    // 4. Mélanger les questions et en sélectionner 10
+    let shuffled = shuffleArray(allQuestions);
+    let selectedQuestions = shuffled.slice(0, 10);
+
+    activeState[subject] = { level, questions: selectedQuestions };
+
+    // 5. Générer le HTML du test
+    let html = `<div class="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700 flex flex-wrap justify-between items-center gap-2">
+      <h3 class="text-xl font-bold text-blue-600">Test ${subject.toUpperCase()} - ${level}ᵉ Année</h3>
+      <span class="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 px-3 py-1.5 rounded-full font-bold">10 questions × 2 pts = 20 Pts</span>
+    </div>`;
+
+    selectedQuestions.forEach((qObj, index) => {
+      html += `<div class="mb-6 bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-800">
+        <p class="font-semibold text-base md:text-lg mb-3 text-gray-800 dark:text-gray-100">
+          <span class="inline-block bg-blue-600 text-white text-xs px-2 py-1 rounded mr-2 font-bold">Q${index + 1}</span>
+          ${qObj.q} <span class="text-xs font-normal text-blue-600 dark:text-blue-400 ml-1">(2 pts)</span>
+        </p>
+        <div class="grid gap-2">`;
+      
+      qObj.options.forEach((opt, optIdx) => {
+        html += `<label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer transition">
+          <input type="radio" name="q_${subject}_${index}" value="${optIdx}" class="w-4 h-4 text-blue-600">
+          <span class="text-sm md:text-base">${opt}</span>
+        </label>`;
+      });
+      
+      html += `</div></div>`;
+    });
+
+    html += `<div class="mt-8 flex flex-wrap gap-4">
+      <button onclick="submitTest('${subject}')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3.5 rounded-xl transition shadow-lg w-full md:w-auto">
+        Valider et voir la note sur 20
+      </button>
+      <button onclick="startTest('${subject}', '${level}')" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-6 py-3.5 rounded-xl transition w-full md:w-auto">
+        🔄 Changer de série (Nouveau tirage)
+      </button>
+    </div>
+    <div id="result-${subject}" class="mt-6"></div>`;
+
+    box.innerHTML = html;
+
+    // 6. Faire défiler la page doucement jusqu'au questionnaire
+    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+
 
   // BANQUE DE DATA : 40 QUESTIONS PAR MATIÈRE ET PAR CLASSE (2 Pts par question = 20 Pts)
   const quizData = {
