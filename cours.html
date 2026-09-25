@@ -8,10 +8,14 @@
   <meta name="author" content="Salé SIDIBÉ">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://salesidibe223.github.io/Sciences-authentiques-MPCI/cours.html">
-<meta property="og:image" content="https://salesidibe223.github.io/Sciences-authentiques-MPCI/logo.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-  
+
+  <!-- Open Graph Meta (Aperçu WhatsApp/Facebook avec Logo) -->
+  <meta property="og:title" content="Cours & Évaluations | Salé SIDIBÉ">
+  <meta property="og:description" content="Tests de niveau sur 20 points et cours de sciences à Bamako et en ligne.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://salesidibe223.github.io/Sciences-authentiques-MPCI/cours.html">
+  <meta property="og:image" content="https://salesidibe223.github.io/Sciences-authentiques-MPCI/logo.png">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = { darkMode: 'class' }
@@ -20,8 +24,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', sans-serif; }
+    body { 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+    }
     html { scroll-behavior: smooth; }
+    button { -webkit-appearance: none; appearance: none; }
   </style>
 </head>
 <body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-white">
@@ -61,6 +69,15 @@
         Sélectionnez une matière, choisissez votre classe (7ᵉ, 8ᵉ ou 9ᵉ Année) et passez un <strong>test évalué sur 20 points</strong> pour tester vos connaissances.
       </p>
       <div class="flex flex-wrap justify-center gap-4 mt-8">
+        <button onclick="showLevels('math-container')" class="bg-white text-blue-700 px-6 py-3 rounded-full font-bold hover:bg-gray-100">
+          📐 Mathématiques
+        </button>
+        <button onclick="showLevels('pc-container')" class="bg-white text-blue-700 px-6 py-3 rounded-full font-bold hover:bg-gray-100">
+          ⚛️ Physique - Chimie
+        </button>
+        <button onclick="showLevels('info-container')" class="bg-white text-blue-700 px-6 py-3 rounded-full font-bold hover:bg-gray-100">
+          💻 Informatique
+        </button>
       </div>
     </div>
   </section>
@@ -72,7 +89,7 @@
         <span class="text-blue-600 font-bold uppercase tracking-wider">01 — Évaluation</span>
         <h2 class="text-3xl md:text-4xl font-extrabold mt-2">Test de Mathématiques (sur 20 points)</h2>
         <p class="text-gray-600 dark:text-gray-300 mt-2">Cliquez sur le bouton ci-dessous puis choisissez votre classe.</p>
-        <button onclick="toggleSection('math-container')" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-full transition shadow-lg">
+        <button onclick="showLevels('math-container')" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-full transition shadow-lg">
           Accéder aux tests de Mathématiques 📐
         </button>
       </div>
@@ -95,7 +112,7 @@
         <span class="text-blue-600 font-bold uppercase tracking-wider">02 — Évaluation</span>
         <h2 class="text-3xl md:text-4xl font-extrabold mt-2">Test de Physique-Chimie (sur 20 points)</h2>
         <p class="text-gray-600 dark:text-gray-300 mt-2">Évaluez vos compétences en sciences physiques et chimiques.</p>
-        <button onclick="toggleSection('pc-container')" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-full transition shadow-lg">
+        <button onclick="showLevels('pc-container')" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-full transition shadow-lg">
           Accéder aux tests de Physique-Chimie ⚛️
         </button>
       </div>
@@ -118,7 +135,7 @@
         <span class="text-blue-600 font-bold uppercase tracking-wider">03 — Évaluation</span>
         <h2 class="text-3xl md:text-4xl font-extrabold mt-2">Test d'Informatique (sur 20 points)</h2>
         <p class="text-gray-600 dark:text-gray-300 mt-2">Testez vos connaissances en outils numériques et logique informatique.</p>
-        <button onclick="toggleSection('info-container')" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-full transition shadow-lg">
+        <button onclick="showLevels('info-container')" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-full transition shadow-lg">
           Accéder aux tests d'Informatique 💻
         </button>
       </div>
@@ -134,13 +151,12 @@
     </div>
   </section>
 
-  <!-- TYPES DE COURS / FORMULES -->
+  <!-- FORMULES / SERVICES -->
   <section id="services" class="py-20">
     <div class="max-w-6xl mx-auto px-6">
       <div class="text-center mb-12">
         <span class="text-blue-600 font-bold uppercase tracking-wider">Formules</span>
         <h2 class="text-3xl md:text-4xl font-extrabold mt-3">Choisissez votre formule</h2>
-        <p class="text-gray-500 dark:text-gray-400 mt-2">Cliquez sur une formule pour directement demander des informations sur WhatsApp</p>
       </div>
 
       <div class="grid md:grid-cols-3 gap-8">
@@ -174,9 +190,9 @@
       <span class="text-blue-600 font-bold uppercase tracking-wider">Tarifs</span>
       <h2 class="text-3xl md:text-4xl font-extrabold mt-3 mb-6">Des formules adaptées</h2>
       <div class="mt-4 inline-block bg-white dark:bg-gray-800 rounded-3xl shadow-xl px-10 py-8">
-        <p class="text-gray-500 dark:text-gray-400 mb-2">dépendent</p>
-        <p class="text-4xl font-extrabold text-blue-600">du COURS</p>
-        <p class="text-gray-500 dark:text-gray-400 mt-2">et de la FORMULE</p>
+        <p class="text-gray-500 dark:text-gray-400 mb-2">À partir de</p>
+        <p class="text-4xl font-extrabold text-blue-600">5 000 FCFA</p>
+        <p class="text-gray-500 dark:text-gray-400 mt-2">jusqu'à 50 000 FCFA selon la formule</p>
       </div>
     </div>
   </section>
@@ -214,20 +230,11 @@
     WA
   </a>
 
-  <!-- BANQUE DE QUESTIONS ET JAVASCRIPT -->
+  <!-- SCRIPT ET BANQUE DE QUESTIONS -->
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    function toggleSection(id) {
-      const el = document.getElementById(id);
-      if (el) el.classList.toggle('hidden');
-    }
-
-    function openAndStart(subject, level) {
-      const container = document.getElementById(`${subject}-container`);
-      if (container) container.classList.remove('hidden');
-      startTest(subject, level);
-    }
+    let activeState = {};
 
     function shuffleArray(array) {
       let arr = [...array];
@@ -238,6 +245,16 @@
       return arr;
     }
 
+    // Affiche uniquement les boutons de choix de classe (7e, 8e, 9e)
+    function showLevels(containerId) {
+      const container = document.getElementById(containerId);
+      if (container) {
+        container.classList.remove('hidden');
+        container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    // BANQUE DE QUESTIONS (40 Questions par matière et niveau)
     const quizData = {
       math: {
         '7': [
@@ -627,51 +644,17 @@
         ]
       }
     };
-  <!-- SCRIPT JAVASCRIPT COMPLET -->
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // 1. Variables globales nécessaires
-    let activeState = {};
-
-    // Fonction de mélange aléatoire (Fisher-Yates)
-    function shuffleArray(array) {
-      let arr = [...array];
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
-
-    // 2. Fonction pour afficher les boutons des classes (7e, 8e, 9e)
-    function showLevels(containerId) {
-      const container = document.getElementById(containerId);
-      if (container) {
-        container.classList.remove('hidden');
-        container.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }
-
-    // 3. Fonction pour démarrer le test (10 questions tirées au sort)
+    // Démarre le test quand l'élève clique sur sa classe (7e, 8e ou 9e)
     function startTest(subject, level) {
-      const parentContainer = document.getElementById(`${subject}-container`);
-      if (parentContainer) {
-        parentContainer.classList.remove('hidden');
-      }
-
       const boxId = `quiz-box-${subject}`;
       const box = document.getElementById(boxId);
       if (!box) return;
 
       box.classList.remove('hidden');
 
-      if (typeof quizData === 'undefined' || !quizData[subject] || !quizData[subject][level]) {
-        alert("La banque de questions n'est pas chargée correctement.");
-        return;
-      }
+      let allQuestions = quizData[subject] ? quizData[subject][level] : null;
+      if (!allQuestions) return;
 
-      let allQuestions = quizData[subject][level];
       let shuffled = shuffleArray(allQuestions);
       let selectedQuestions = shuffled.slice(0, 10);
 
@@ -714,13 +697,13 @@
       box.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // 4. Fonction pour corriger le test et calculer la note sur 20
+    // Corrige le test et génère le lien WhatsApp
     function submitTest(subject) {
       const state = activeState[subject];
       if (!state) return;
 
       let score = 0;
-      const total = state.questions.length * 2; // 10 questions x 2 pts = 20
+      const total = state.questions.length * 2;
 
       state.questions.forEach((qObj, index) => {
         const selected = document.querySelector(`input[name="q_${subject}_${index}"]:checked`);
