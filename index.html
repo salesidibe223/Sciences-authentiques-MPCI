@@ -1686,7 +1686,25 @@ body.dark header {
           type="button">
           <i class="fa-solid fa-bars"></i>
         </button>
-
+<style>
+  body { 
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background-color: #ffffff;
+    color: #111827;
+  }
+  html { 
+    scroll-behavior: smooth; 
+    -webkit-text-size-adjust: 100%;
+  }
+  /* Correction pour les boutons sur Safari iOS */
+  button, input, select, textarea {
+    -webkit-appearance: none;
+    appearance: none;
+    font-family: inherit;
+  }
+</style>
+        
       </div>
 
     </nav>
