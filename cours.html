@@ -627,8 +627,33 @@
         ]
       }
     };
+  <!-- SCRIPT JAVASCRIPT COMPLET -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
 
+    // 1. Variables globales nécessaires
     let activeState = {};
+
+    // Fonction de mélange aléatoire (Fisher-Yates)
+    function shuffleArray(array) {
+      let arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // 2. Fonction pour afficher les boutons des classes (7e, 8e, 9e)
+    function showLevels(containerId) {
+      const container = document.getElementById(containerId);
+      if (container) {
+        container.classList.remove('hidden');
+        container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    // 3. Fonction pour démarrer le test (10 questions tirées au sort)
     function startTest(subject, level) {
       const parentContainer = document.getElementById(`${subject}-container`);
       if (parentContainer) {
@@ -641,9 +666,12 @@
 
       box.classList.remove('hidden');
 
-      let allQuestions = quizData[subject] ? quizData[subject][level] : null;
-      if (!allQuestions) return;
+      if (typeof quizData === 'undefined' || !quizData[subject] || !quizData[subject][level]) {
+        alert("La banque de questions n'est pas chargée correctement.");
+        return;
+      }
 
+      let allQuestions = quizData[subject][level];
       let shuffled = shuffleArray(allQuestions);
       let selectedQuestions = shuffled.slice(0, 10);
 
@@ -686,12 +714,13 @@
       box.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    // 4. Fonction pour corriger le test et calculer la note sur 20
     function submitTest(subject) {
       const state = activeState[subject];
       if (!state) return;
 
       let score = 0;
-      const total = state.questions.length * 2;
+      const total = state.questions.length * 2; // 10 questions x 2 pts = 20
 
       state.questions.forEach((qObj, index) => {
         const selected = document.querySelector(`input[name="q_${subject}_${index}"]:checked`);
@@ -705,7 +734,7 @@
       let appreciation = score >= 16 ? "🏆 Excellent travail !" : score >= 10 ? "👍 Bon travail !" : "⚠️ Des révisions sont nécessaires.";
 
       resultBox.innerHTML = `
-        <div class="p-6 rounded-2xl bg-gray-100 dark:bg-gray-700 text-center border-2 border-blue-500/30">
+        <div class="p-6 rounded-2xl bg-gray-100 dark:bg-gray-800 text-center border-2 border-blue-500/30">
           <h4 class="text-2xl font-extrabold mb-2">Résultat du test : <span class="${color}">${score} / ${total}</span></h4>
           <p class="text-gray-700 dark:text-gray-200 font-medium mb-4">${appreciation}</p>
           <div class="flex flex-wrap justify-center gap-3">
