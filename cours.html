@@ -1022,7 +1022,7 @@
         ]
       }
     };
-       <!-- SCRIPT ET BANQUE DE QUESTIONS -->
+          <!-- SCRIPT ET BANQUE DE QUESTIONS -->
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -1037,7 +1037,7 @@
       return arr;
     }
 
-    // Fonction sécurisée pour jouer les applaudissements
+    // Effet sonore d'applaudissements (Web Audio API - Sans fichier externe)
     function jouerApplaudissements() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1072,7 +1072,16 @@
       }
     }
 
-    // Démarre le test quand l'élève clique sur sa classe (7e, 8e ou 9e)
+    // Affiche la liste des classes
+    function showLevels(containerId) {
+      const container = document.getElementById(containerId);
+      if (container) {
+        container.classList.remove('hidden');
+        container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    // Démarre le test quand l'élève clique sur sa classe
     function startTest(subject, level) {
       const boxId = `quiz-box-${subject}`;
       const box = document.getElementById(boxId);
@@ -1080,14 +1089,17 @@
 
       box.classList.remove('hidden');
 
-      let allQuestions = quizData[subject] ? quizData[subject][level] : null;
-      if (!allQuestions) return;
+      let allQuestions = (typeof quizData !== 'undefined' && quizData[subject]) ? quizData[subject][level] : null;
+      if (!allQuestions || allQuestions.length === 0) {
+        box.innerHTML = "<p class='text-red-500 font-bold p-4'>Aucune question disponible pour ce niveau.</p>";
+        return;
+      }
 
       let shuffled = shuffleArray(allQuestions);
       let selectedQuestions = shuffled.slice(0, 10);
 
-      // Réinitialisation avec l'indicateur de validation
-      activeState[subject] = { level, questions: selectedQuestions, validated: false };
+      // Réinitialisation avec l'état non validé
+      activeState[subject] = { level: level, questions: selectedQuestions, validated: false };
 
       let html = `<div class="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700 flex flex-wrap justify-between items-center gap-2">
         <h3 class="text-xl font-bold text-blue-600">Test ${subject.toUpperCase()} - ${level}ᵉ Année</h3>
@@ -1126,33 +1138,30 @@
       box.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // Corrige le test, BLOQUE les réponses et AFFICHE le bilan
+    // Valide le test, bloque les modifications et affiche le bilan
     function submitTest(subject) {
       const state = activeState[subject];
       if (!state) return;
 
-      // Anti-triche : si déjà validé, on bloque
+      // Anti-triche : Empêche la revalidation si le test est déjà validé
       if (state.validated) {
-        alert("Vous avez déjà validé ce test. Cliquez sur 'Repasser un autre test' pour recommencer.");
+        alert("Vous avez déjà validé ce test. Pour essayer à nouveau, cliquez sur 'Repasser un autre test'.");
         return;
       }
 
       state.validated = true;
 
-      // 1. Désactiver les options radio pour ne plus pouvoir modifier
+      // 1. Bloquer les cases de réponses
       state.questions.forEach((qObj, index) => {
         const inputs = document.querySelectorAll(`input[name="q_${subject}_${index}"]`);
-        inputs.forEach(input => {
-          input.disabled = true;
-        });
+        inputs.forEach(input => { input.disabled = true; });
       });
 
-      // 2. Désactiver le bouton de validation
+      // 2. Désactiver le bouton "Valider"
       const submitBtn = document.getElementById(`btn-submit-${subject}`);
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.classList.remove("bg-green-600", "hover:bg-green-700");
-        submitBtn.classList.add("bg-gray-400", "cursor-not-allowed");
+        submitBtn.className = "bg-gray-400 text-white font-bold px-8 py-3.5 rounded-xl cursor-not-allowed w-full md:w-auto";
         submitBtn.innerText = "Test déjà validé ✓";
       }
 
@@ -1170,11 +1179,7 @@
         }
       });
 
-      // 4. Construction de l'affichage du résultat
-      const resultBox = document.getElementById(`result-${subject}`);
-      let color = score >= 10 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
-      let appreciation = score >= 16 ? "🏆 Excellent travail !" : score >= 10 ? "👍 Bon travail !" : "⚠️ Des révisions sont nécessaires.";
-
+      // 4. Bilan des erreurs
       let detailErreursHtml = "";
       if (erreurs.length === 0) {
         detailErreursHtml = `
@@ -1187,9 +1192,14 @@
           <div class="my-4 p-4 rounded-xl bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800 text-left text-sm md:text-base">
             <p class="font-bold text-lg mb-2">Bilan des erreurs :</p>
             <p class="mb-1">• Nombre d'erreur(s) : <strong>${erreurs.length}</strong></p>
-            <p>• Question(s) échouée(s) : <strong class="underline">${listeErreurs}</strong></p>
+            <p>• Question(s) à revoir : <strong class="underline">${listeErreurs}</strong></p>
           </div>`;
       }
+
+      // 5. Affichage du résultat
+      const resultBox = document.getElementById(`result-${subject}`);
+      let color = score >= 10 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
+      let appreciation = score >= 16 ? "🏆 Excellent travail !" : score >= 10 ? "👍 Bon travail !" : "⚠️ Des révisions sont nécessaires.";
 
       resultBox.innerHTML = `
         <div class="p-6 rounded-2xl bg-gray-100 dark:bg-gray-800 text-center border-2 border-blue-500/30 shadow-lg">
@@ -1213,19 +1223,12 @@
 
       resultBox.scrollIntoView({ behavior: 'smooth' });
 
-      // 5. Déclenchement sécurisé du son et des confettis si note >= 16/20
+      // 6. Déclenchement sécurisé des effets visuels/sonores si note >= 16
       if (score >= 16) {
-        try {
-          jouerApplaudissements();
-        } catch(e) {}
-
+        jouerApplaudissements();
         try {
           if (typeof confetti === 'function') {
-            confetti({
-              particleCount: 150,
-              spread: 90,
-              origin: { y: 0.6 }
-            });
+            confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
           }
         } catch(e) {}
       }
