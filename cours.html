@@ -1072,18 +1072,21 @@
       box.innerHTML = html;
       box.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-        // Corrige le test et génère le lien WhatsApp
+        // Corrige le test et génère le bilan des erreurs + lien WhatsApp
     function submitTest(subject) {
       const state = activeState[subject];
       if (!state) return;
 
       let score = 0;
+      let erreurs = [];
       const total = state.questions.length * 2;
 
       state.questions.forEach((qObj, index) => {
         const selected = document.querySelector(`input[name="q_${subject}_${index}"]:checked`);
         if (selected && parseInt(selected.value) === qObj.answer) {
           score += 2;
+        } else {
+          erreurs.push(index + 1); // Enregistre le numéro de la question échouée (1, 2, 3...)
         }
       });
 
@@ -1091,11 +1094,29 @@
       let color = score >= 10 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
       let appreciation = score >= 16 ? "🏆 Excellent travail !" : score >= 10 ? "👍 Bon travail !" : "⚠️ Des révisions sont nécessaires.";
 
+      // Construction du bloc d'affichage des erreurs
+      let detailErreursHtml = "";
+      if (erreurs.length === 0) {
+        detailErreursHtml = `<p class="text-green-600 dark:text-green-400 font-bold mb-4">🎉 Sans faute ! Aucune erreur commise.</p>`;
+      } else {
+        let listeErreurs = erreurs.map(num => `Question ${num}`).join(', ');
+        detailErreursHtml = `
+          <div class="mb-4 p-4 rounded-xl bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800 text-left text-sm md:text-base">
+            <p class="font-bold mb-1">Bilan des erreurs :</p>
+            <p>• Nombre d'erreur(s) : <strong>${erreurs.length}</strong></p>
+            <p>• Erreur(s) commise(s) sur : <strong>${listeErreurs}</strong></p>
+          </div>
+        `;
+      }
+
       resultBox.innerHTML = `
         <div class="p-6 rounded-2xl bg-gray-100 dark:bg-gray-800 text-center border-2 border-blue-500/30">
           <h4 class="text-2xl font-extrabold mb-2">Résultat du test : <span class="${color}">${score} / ${total}</span></h4>
           <p class="text-gray-700 dark:text-gray-200 font-medium mb-4">${appreciation}</p>
-          <div class="flex flex-wrap justify-center gap-3">
+          
+          ${detailErreursHtml}
+
+          <div class="flex flex-wrap justify-center gap-3 mt-4">
             <a href="https://wa.me/22389827200?text=Bonjour%20Sal%C3%A9%20SIDIB%C3%89%2C%20j%27ai%20obtenu%20la%20note%20de%20${score}%2F20%20au%20test%20de%20${subject.toUpperCase()}%20(${state.level}%C3%AAme%20Ann%C3%A9e)." 
                target="_blank" 
                class="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-full transition shadow-md">
