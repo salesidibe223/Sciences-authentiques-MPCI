@@ -20,6 +20,7 @@
   <script>
     tailwind.config = { darkMode: 'class' }
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.browser.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1212,6 +1213,43 @@
             }
           }
         });
+      };
+    })();
+     // Déclenche l'animation de fleurs/confettis si la note est >= 16/20
+    (function pluieDeFleurs() {
+      const vieuxSubmit = window.submitTest;
+      if (typeof vieuxSubmit !== 'function') return;
+
+      window.submitTest = function(subject) {
+        // Exécute la validation normale
+        vieuxSubmit(subject);
+
+        const state = activeState[subject];
+        if (!state || !state.questions) return;
+
+        // Calcul de la note sur 20
+        let score = 0;
+        state.questions.forEach((qObj, index) => {
+          const selected = document.querySelector(`input[name="q_${subject}_${index}"]:checked`);
+          if (selected && parseInt(selected.value) === qObj.answer) {
+            score += 2;
+          }
+        });
+
+        // Si la note est >= 16/20, on jette les fleurs/confettis
+        if (score >= 16) {
+          try {
+            if (typeof confetti === 'function') {
+              confetti({
+                particleCount: 180,
+                spread: 160,
+                origin: { y: 0.6 }
+              });
+            }
+          } catch (e) {
+            console.log("Animation confetti non disponible :", e);
+          }
+        }
       };
     })();
   </script>
