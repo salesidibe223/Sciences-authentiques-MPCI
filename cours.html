@@ -1177,6 +1177,43 @@
         };
       }
     })();
+      // Colorie les cases en vert (bonne réponse) ou en rouge (mauvaise réponse) lors de la validation
+    (function colorierCorrection() {
+      const vieuxSubmit = window.submitTest;
+      if (typeof vieuxSubmit !== 'function') return;
+
+      window.submitTest = function(subject) {
+        // Exécute la validation normale d'abord
+        vieuxSubmit(subject);
+
+        const state = activeState[subject];
+        if (!state || !state.questions) return;
+
+        // Parcourt toutes les questions du test
+        state.questions.forEach((qObj, index) => {
+          const selected = document.querySelector(`input[name="q_${subject}_${index}"]:checked`);
+          
+          if (selected) {
+            const label = selected.closest('label');
+            const reponseEleve = parseInt(selected.value);
+
+            if (reponseEleve === qObj.answer) {
+              // Ligne verte pour la bonne réponse
+              if (label) {
+                label.classList.remove('bg-gray-50', 'hover:bg-blue-50', 'border-gray-200');
+                label.classList.add('bg-green-100', 'border-green-500', 'text-green-900', 'font-semibold');
+              }
+            } else {
+              // Ligne rouge pour la mauvaise réponse
+              if (label) {
+                label.classList.remove('bg-gray-50', 'hover:bg-blue-50', 'border-gray-200');
+                label.classList.add('bg-red-100', 'border-red-500', 'text-red-900', 'font-semibold');
+              }
+            }
+          }
+        });
+      };
+    })();
   </script>
 </body>
 </html>
