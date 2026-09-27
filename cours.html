@@ -15,7 +15,8 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://salesidibe223.github.io/Sciences-authentiques-MPCI/cours.html">
   <meta property="og:image" content="https://salesidibe223.github.io/Sciences-authentiques-MPCI/logo.png">
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.browser.min.js"></script>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -1021,6 +1022,56 @@
         ]
       }
     };
+       <!-- SCRIPT ET BANQUE DE QUESTIONS -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    let activeState = {};
+
+    function shuffleArray(array) {
+      let arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // Fonction sécurisée pour jouer les applaudissements
+    function jouerApplaudissements() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const duration = 2.0;
+        const bufferSize = audioCtx.sampleRate * duration;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (audioCtx.sampleRate * 0.6));
+        }
+
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 1000;
+        filter.Q.value = 1.2;
+
+        const gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0.7, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        noise.start();
+      } catch (e) {
+        console.log("Audio non supporté ou bloqué :", e);
+      }
+    }
+
     // Démarre le test quand l'élève clique sur sa classe (7e, 8e ou 9e)
     function startTest(subject, level) {
       const boxId = `quiz-box-${subject}`;
@@ -1035,7 +1086,7 @@
       let shuffled = shuffleArray(allQuestions);
       let selectedQuestions = shuffled.slice(0, 10);
 
-      // On réinitialise l'état et le statut de validation (validated: false)
+      // Réinitialisation avec l'indicateur de validation
       activeState[subject] = { level, questions: selectedQuestions, validated: false };
 
       let html = `<div class="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700 flex flex-wrap justify-between items-center gap-2">
@@ -1079,36 +1130,33 @@
     function submitTest(subject) {
       const state = activeState[subject];
       if (!state) return;
-    
-      // Anti-triche : Si le test a déjà été validé, on bloque une seconde validation
+
+      // Anti-triche : si déjà validé, on bloque
       if (state.validated) {
-        alert("Vous avez déjà validé ce test. Pour retenter votre chance, cliquez sur 'Repasser un autre test'.");
+        alert("Vous avez déjà validé ce test. Cliquez sur 'Repasser un autre test' pour recommencer.");
         return;
       }
 
-      // Marquer le test comme validé
       state.validated = true;
 
-      // 1. BLOQUER TOUTES LES OPTIONS RADIO (l'élève ne peut plus modifier ses choix)
+      // 1. Désactiver les options radio pour ne plus pouvoir modifier
       state.questions.forEach((qObj, index) => {
         const inputs = document.querySelectorAll(`input[name="q_${subject}_${index}"]`);
         inputs.forEach(input => {
-          input.disabled = true; // Désactive l'interaction
+          input.disabled = true;
         });
       });
-      // 2. DÉSACTIVER LE BOUTON DE VALIDATION
+
+      // 2. Désactiver le bouton de validation
       const submitBtn = document.getElementById(`btn-submit-${subject}`);
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.classList.remove("bg-green-600", "hover:bg-green-700");
         submitBtn.classList.add("bg-gray-400", "cursor-not-allowed");
         submitBtn.innerText = "Test déjà validé ✓";
-          }
-        // Corrige le test et génère le bilan des erreurs + lien WhatsApp
-    function submitTest(subject) {
-      const state = activeState[subject];
-      if (!state) return;
+      }
 
+      // 3. Calcul de la note et recensement des erreurs
       let score = 0;
       let erreurs = [];
       const total = state.questions.length * 2;
@@ -1118,52 +1166,39 @@
         if (selected && parseInt(selected.value) === qObj.answer) {
           score += 2;
         } else {
-          erreurs.push(index + 1); // Enregistre le numéro de la question échouée (1, 2, 3...)
+          erreurs.push(index + 1);
         }
       });
-    }
+
+      // 4. Construction de l'affichage du résultat
       const resultBox = document.getElementById(`result-${subject}`);
-      let color = score >= 12 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
-      let appreciation = score >= 18 ? "🏆 Excellent travail !" : score >= 16 ? "👏 Très bon travail !" : score >= 14 ? "👍 Bon travail !" : score >= 12 ? "😉 Assez bon travail !" : "⚠️ Des révisions sont nécessaires.";
+      let color = score >= 10 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
+      let appreciation = score >= 16 ? "🏆 Excellent travail !" : score >= 10 ? "👍 Bon travail !" : "⚠️ Des révisions sont nécessaires.";
 
-        // DÉCLENCHEMENT DU SON ET DES CONFETTIS POUR LES NOTES >= 16/20 (16, 18, 20)
-      if (score >= 16) {
-        // 1. Jouer le son d'applaudissements
-        const applaudissements = new Audio('https://www.soundjay.com/human/applause-01.mp3');
-        applaudissements.play().catch(e => console.log("Lecture audio bloquée par le navigateur :", e));
-
-        // 2. Lancer les confettis (fleurs / cotillons qui s'envolent)
-        if (typeof confetti === 'function') {
-          confetti({
-            particleCount: 120,
-            spread: 80,
-            origin: { y: 0.6 }
-          });
-        }
-    }
-      // Construction du bloc d'affichage des erreurs
       let detailErreursHtml = "";
       if (erreurs.length === 0) {
-        detailErreursHtml = `<p class="text-green-600 dark:text-green-400 font-bold mb-4">🎉 Sans faute ! Aucune erreur commise.</p>`;
+        detailErreursHtml = `
+          <div class="my-4 p-4 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800 text-center font-bold">
+            🎉 Bravo ! Aucune erreur commise sur ce test.
+          </div>`;
       } else {
         let listeErreurs = erreurs.map(num => `Question ${num}`).join(', ');
         detailErreursHtml = `
-          <div class="mb-4 p-4 rounded-xl bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800 text-left text-sm md:text-base">
-            <p class="font-bold mb-1">Bilan des erreurs :</p>
-            <p>• Nombre d'erreur(s) : <strong>${erreurs.length}</strong></p>
-            <p>• Erreur(s) commise(s) sur : <strong>${listeErreurs}</strong></p>
-          </div>
-        `;
+          <div class="my-4 p-4 rounded-xl bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800 text-left text-sm md:text-base">
+            <p class="font-bold text-lg mb-2">Bilan des erreurs :</p>
+            <p class="mb-1">• Nombre d'erreur(s) : <strong>${erreurs.length}</strong></p>
+            <p>• Question(s) échouée(s) : <strong class="underline">${listeErreurs}</strong></p>
+          </div>`;
       }
 
       resultBox.innerHTML = `
-        <div class="p-6 rounded-2xl bg-gray-100 dark:bg-gray-800 text-center border-2 border-blue-500/30">
+        <div class="p-6 rounded-2xl bg-gray-100 dark:bg-gray-800 text-center border-2 border-blue-500/30 shadow-lg">
           <h4 class="text-2xl font-extrabold mb-2">Résultat du test : <span class="${color}">${score} / ${total}</span></h4>
-          <p class="text-gray-700 dark:text-gray-200 font-medium mb-4">${appreciation}</p>
-          
+          <p class="text-gray-700 dark:text-gray-200 font-medium mb-2">${appreciation}</p>
+
           ${detailErreursHtml}
 
-          <div class="flex flex-wrap justify-center gap-3 mt-4">
+          <div class="flex flex-wrap justify-center gap-3 mt-6">
             <a href="https://wa.me/22389827200?text=Bonjour%20Sal%C3%A9%20SIDIB%C3%89%2C%20j%27ai%20obtenu%20la%20note%20de%20${score}%2F20%20au%20test%20de%20${subject.toUpperCase()}%20(${state.level}%C3%AAme%20Ann%C3%A9e)." 
                target="_blank" 
                class="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-full transition shadow-md">
@@ -1175,7 +1210,25 @@
           </div>
         </div>
       `;
+
       resultBox.scrollIntoView({ behavior: 'smooth' });
+
+      // 5. Déclenchement sécurisé du son et des confettis si note >= 16/20
+      if (score >= 16) {
+        try {
+          jouerApplaudissements();
+        } catch(e) {}
+
+        try {
+          if (typeof confetti === 'function') {
+            confetti({
+              particleCount: 150,
+              spread: 90,
+              origin: { y: 0.6 }
+            });
+          }
+        } catch(e) {}
+      }
     }
   </script>
 </body>
