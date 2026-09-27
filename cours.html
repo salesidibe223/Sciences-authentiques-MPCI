@@ -1096,14 +1096,14 @@
       });
 
       const resultBox = document.getElementById(`result-${subject}`);
-      let color = score >= 10 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
-      let appreciation = score >= 16 ? "🏆 Excellent travail !" : score >= 10 ? "👍 Bon travail !" : "⚠️ Des révisions sont nécessaires.";
+      let color = score >= 12 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
+      let appreciation = score >= 18 ? "🏆 Excellent travail🥇 !" : score >= 16 ? "👏 Très bon travail🥈 !" : score : >= 14 ? "👍 Bon travail!" : score : >= 12 ? "Assez bon travail!" : "⚠️ Des révisions sont nécessaires 👎.";
 
       let detailErreursHtml = "";
       if (erreurs.length === 0) {
         detailErreursHtml = `
           <div class="my-4 p-4 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800 text-center font-bold">
-            🎉 Bravo ! Aucune erreur commise sur ce test.
+            🏆 Félicitations Bravo🥇 ! Excellent.
           </div>`;
       } else {
         let listeErreurs = erreurs.map(num => `Question ${num}`).join(', ');
