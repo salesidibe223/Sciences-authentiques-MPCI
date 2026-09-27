@@ -15,8 +15,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://salesidibe223.github.io/Sciences-authentiques-MPCI/cours.html">
   <meta property="og:image" content="https://salesidibe223.github.io/Sciences-authentiques-MPCI/logo.png">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.browser.min.js"></script>
-  
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = { darkMode: 'class' }
@@ -1021,7 +1020,7 @@
         ]
       }
     };
-                  <!-- SCRIPT ET BANQUE DE QUESTIONS -->
+   <!-- SCRIPT ET BANQUE DE QUESTIONS -->
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -1036,7 +1035,6 @@
       return arr;
     }
 
-    // Affichage des choix de classe
     function showLevels(containerId) {
       const container = document.getElementById(containerId);
       if (container) {
@@ -1045,42 +1043,7 @@
       }
     }
 
-    // Fonction de son d'applaudissements sécurisée (sans fichier externe)
-    function jouerApplaudissements() {
-      try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const duration = 2.0;
-        const bufferSize = audioCtx.sampleRate * duration;
-        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-        const data = buffer.getChannelData(0);
-
-        for (let i = 0; i < bufferSize; i++) {
-          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (audioCtx.sampleRate * 0.6));
-        }
-
-        const noise = audioCtx.createBufferSource();
-        noise.buffer = buffer;
-
-        const filter = audioCtx.createBiquadFilter();
-        filter.type = 'bandpass';
-        filter.frequency.value = 1000;
-        filter.Q.value = 1.2;
-
-        const gain = audioCtx.createGain();
-        gain.gain.setValueAtTime(0.7, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-
-        noise.connect(filter);
-        filter.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        noise.start();
-      } catch (e) {
-        console.log("Audio non disponible :", e);
-      }
-    }
-
-    // 1. DÉMARRE LE TEST
+    // Démarre le test quand l'élève clique sur sa classe (7e, 8e ou 9e)
     function startTest(subject, level) {
       const boxId = `quiz-box-${subject}`;
       const box = document.getElementById(boxId);
@@ -1088,18 +1051,13 @@
 
       box.classList.remove('hidden');
 
-      // Sécurité si quizData n'est pas encore défini
-      if (typeof quizData === 'undefined' || !quizData[subject] || !quizData[subject][level]) {
-        box.innerHTML = "<p class='text-red-500 font-bold p-4'>Chargement des questions... Veuillez vérifier la banque de données.</p>";
-        return;
-      }
+      let allQuestions = (typeof quizData !== 'undefined' && quizData[subject]) ? quizData[subject][level] : null;
+      if (!allQuestions) return;
 
-      let allQuestions = quizData[subject][level];
       let shuffled = shuffleArray(allQuestions);
       let selectedQuestions = shuffled.slice(0, 10);
 
-      // On initialise l'état avec 'validated: false'
-      activeState[subject] = { level: level, questions: selectedQuestions, validated: false };
+      activeState[subject] = { level: level, questions: selectedQuestions };
 
       let html = `<div class="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700 flex flex-wrap justify-between items-center gap-2">
         <h3 class="text-xl font-bold text-blue-600">Test ${subject.toUpperCase()} - ${level}ᵉ Année</h3>
@@ -1125,7 +1083,7 @@
       });
 
       html += `<div class="mt-8 flex flex-wrap gap-4">
-        <button id="btn-submit-${subject}" onclick="submitTest('${subject}')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3.5 rounded-xl transition shadow-lg w-full md:w-auto">
+        <button onclick="submitTest('${subject}')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3.5 rounded-xl transition shadow-lg w-full md:w-auto">
           Valider et voir la note sur 20
         </button>
         <button onclick="startTest('${subject}', '${level}')" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-6 py-3.5 rounded-xl transition w-full md:w-auto">
@@ -1138,34 +1096,11 @@
       box.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // 2. CORRIGE LE TEST ET BLOQUE UNE SECONDE VALIDATION
+    // Corrige le test et génère le bilan d'erreurs et le lien WhatsApp
     function submitTest(subject) {
       const state = activeState[subject];
       if (!state) return;
 
-      // Anti-triche : si le test a déjà été validé
-      if (state.validated) {
-        alert("Vous avez déjà validé ce test. Pour retenter votre chance, cliquez sur 'Repasser un autre test'.");
-        return;
-      }
-
-      state.validated = true;
-
-      // 1. Désactiver toutes les options radio
-      state.questions.forEach((qObj, index) => {
-        const inputs = document.querySelectorAll(`input[name="q_${subject}_${index}"]`);
-        inputs.forEach(input => { input.disabled = true; });
-      });
-
-      // 2. Bloquer le bouton de validation
-      const submitBtn = document.getElementById(`btn-submit-${subject}`);
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.className = "bg-gray-400 text-white font-bold px-8 py-3.5 rounded-xl cursor-not-allowed w-full md:w-auto";
-        submitBtn.innerText = "Test déjà validé ✓";
-      }
-
-      // 3. Calculer la note et lister les questions échouées
       let score = 0;
       let erreurs = [];
       const total = state.questions.length * 2;
@@ -1179,7 +1114,10 @@
         }
       });
 
-      // 4. Construction du bloc des erreurs
+      const resultBox = document.getElementById(`result-${subject}`);
+      let color = score >= 10 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
+      let appreciation = score >= 16 ? "🏆 Excellent travail !" : score >= 10 ? "👍 Bon travail !" : "⚠️ Des révisions sont nécessaires.";
+
       let detailErreursHtml = "";
       if (erreurs.length === 0) {
         detailErreursHtml = `
@@ -1195,11 +1133,6 @@
             <p>• Question(s) à revoir : <strong class="underline">${listeErreurs}</strong></p>
           </div>`;
       }
-
-      // 5. Affichage du résultat
-      const resultBox = document.getElementById(`result-${subject}`);
-      let color = score >= 10 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
-      let appreciation = score >= 16 ? "🏆 Excellent travail !" : score >= 10 ? "👍 Bon travail !" : "⚠️ Des révisions sont nécessaires.";
 
       resultBox.innerHTML = `
         <div class="p-6 rounded-2xl bg-gray-100 dark:bg-gray-800 text-center border-2 border-blue-500/30 shadow-lg">
@@ -1220,20 +1153,8 @@
           </div>
         </div>
       `;
-
       resultBox.scrollIntoView({ behavior: 'smooth' });
-
-      // 6. Déclenchement de la célébration pour note >= 16
-      if (score >= 16) {
-        jouerApplaudissements();
-        try {
-          if (typeof confetti === 'function') {
-            confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
-          }
-        } catch(e) {}
-      }
     }
   </script>
-  
 </body>
 </html>
