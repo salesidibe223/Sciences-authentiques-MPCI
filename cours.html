@@ -1215,19 +1215,19 @@
         });
       };
     })();
-     // Déclenche l'animation de fleurs/confettis si la note est >= 16/20
-    (function pluieDeFleurs() {
+         // Animation visuelle de fleurs (🌸 🌺 🌻 💐 🎉) sans aucune bibliothèque externe
+    (function lancerFleursAnimation() {
       const vieuxSubmit = window.submitTest;
       if (typeof vieuxSubmit !== 'function') return;
 
       window.submitTest = function(subject) {
-        // Exécute la validation normale
+        // Exécute la correction et l'affichage des résultats normaux
         vieuxSubmit(subject);
 
         const state = activeState[subject];
         if (!state || !state.questions) return;
 
-        // Calcul de la note sur 20
+        // Calcul du score sur 20
         let score = 0;
         state.questions.forEach((qObj, index) => {
           const selected = document.querySelector(`input[name="q_${subject}_${index}"]:checked`);
@@ -1236,21 +1236,47 @@
           }
         });
 
-        // Si la note est >= 16/20, on jette les fleurs/confettis
+        // Si la note est >= 16 (16, 18, 20/20), on déclenche l'envolée de fleurs
         if (score >= 16) {
-          try {
-            if (typeof confetti === 'function') {
-              confetti({
-                particleCount: 180,
-                spread: 160,
-                origin: { y: 0.6 }
-              });
-            }
-          } catch (e) {
-            console.log("Animation confetti non disponible :", e);
-          }
+          jeterFleursAlerte();
         }
       };
+
+      function jeterFleursAlerte() {
+        const fleurs = ['🌸', '🌺', '🌻', '💐', '🎉', '✨', '🌼'];
+        const nombreDeFleurs = 70;
+
+        for (let i = 0; i < nombreDeFleurs; i++) {
+          const fleur = document.createElement('div');
+          fleur.innerText = fleurs[Math.floor(Math.random() * fleurs.length)];
+          
+          // Style des fleurs volante
+          fleur.style.position = 'fixed';
+          fleur.style.left = Math.random() * 100 + 'vw';
+          fleur.style.bottom = '-50px';
+          fleur.style.fontSize = (Math.random() * 25 + 25) + 'px';
+          fleur.style.zIndex = '9999';
+          fleur.style.pointerEvents = 'none';
+          fleur.style.transition = 'transform 2.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 2.5s ease-out';
+          
+          document.body.appendChild(fleur);
+
+          // Animation vers le haut avec rotation aléatoire
+          setTimeout(() => {
+            const deplacementX = (Math.random() - 0.5) * 300;
+            const hauteurHaute = -(Math.random() * 80 + 70) + 'vh';
+            const rotation = (Math.random() - 0.5) * 720;
+            
+            fleur.style.transform = `translate(${deplacementX}px, ${hauteurHaute}) rotate(${rotation}deg)`;
+            fleur.style.opacity = '0';
+          }, 50);
+
+          // Nettoyage de l'élément HTML après l'animation
+          setTimeout(() => {
+            fleur.remove();
+          }, 2600);
+        }
+      }
     })();
   </script>
 </body>
