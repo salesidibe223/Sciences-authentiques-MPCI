@@ -1021,7 +1021,7 @@
         ]
       }
     };
-          <!-- SCRIPT ET BANQUE DE QUESTIONS -->
+                  <!-- SCRIPT ET BANQUE DE QUESTIONS -->
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -1036,7 +1036,16 @@
       return arr;
     }
 
-    // Effet sonore d'applaudissements (Web Audio API - Sans fichier externe)
+    // Affichage des choix de classe
+    function showLevels(containerId) {
+      const container = document.getElementById(containerId);
+      if (container) {
+        container.classList.remove('hidden');
+        container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    // Fonction de son d'applaudissements sécurisée (sans fichier externe)
     function jouerApplaudissements() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1067,20 +1076,11 @@
 
         noise.start();
       } catch (e) {
-        console.log("Audio non supporté ou bloqué :", e);
+        console.log("Audio non disponible :", e);
       }
     }
 
-    // Affiche la liste des classes
-    function showLevels(containerId) {
-      const container = document.getElementById(containerId);
-      if (container) {
-        container.classList.remove('hidden');
-        container.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }
-
-    // Démarre le test quand l'élève clique sur sa classe
+    // 1. DÉMARRE LE TEST
     function startTest(subject, level) {
       const boxId = `quiz-box-${subject}`;
       const box = document.getElementById(boxId);
@@ -1088,16 +1088,17 @@
 
       box.classList.remove('hidden');
 
-      let allQuestions = (typeof quizData !== 'undefined' && quizData[subject]) ? quizData[subject][level] : null;
-      if (!allQuestions || allQuestions.length === 0) {
-        box.innerHTML = "<p class='text-red-500 font-bold p-4'>Aucune question disponible pour ce niveau.</p>";
+      // Sécurité si quizData n'est pas encore défini
+      if (typeof quizData === 'undefined' || !quizData[subject] || !quizData[subject][level]) {
+        box.innerHTML = "<p class='text-red-500 font-bold p-4'>Chargement des questions... Veuillez vérifier la banque de données.</p>";
         return;
       }
 
+      let allQuestions = quizData[subject][level];
       let shuffled = shuffleArray(allQuestions);
       let selectedQuestions = shuffled.slice(0, 10);
 
-      // Réinitialisation avec l'état non validé
+      // On initialise l'état avec 'validated: false'
       activeState[subject] = { level: level, questions: selectedQuestions, validated: false };
 
       let html = `<div class="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700 flex flex-wrap justify-between items-center gap-2">
@@ -1137,26 +1138,26 @@
       box.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // Valide le test, bloque les modifications et affiche le bilan
+    // 2. CORRIGE LE TEST ET BLOQUE UNE SECONDE VALIDATION
     function submitTest(subject) {
       const state = activeState[subject];
       if (!state) return;
 
-      // Anti-triche : Empêche la revalidation si le test est déjà validé
+      // Anti-triche : si le test a déjà été validé
       if (state.validated) {
-        alert("Vous avez déjà validé ce test. Pour essayer à nouveau, cliquez sur 'Repasser un autre test'.");
+        alert("Vous avez déjà validé ce test. Pour retenter votre chance, cliquez sur 'Repasser un autre test'.");
         return;
       }
 
       state.validated = true;
 
-      // 1. Bloquer les cases de réponses
+      // 1. Désactiver toutes les options radio
       state.questions.forEach((qObj, index) => {
         const inputs = document.querySelectorAll(`input[name="q_${subject}_${index}"]`);
         inputs.forEach(input => { input.disabled = true; });
       });
 
-      // 2. Désactiver le bouton "Valider"
+      // 2. Bloquer le bouton de validation
       const submitBtn = document.getElementById(`btn-submit-${subject}`);
       if (submitBtn) {
         submitBtn.disabled = true;
@@ -1164,7 +1165,7 @@
         submitBtn.innerText = "Test déjà validé ✓";
       }
 
-      // 3. Calcul de la note et recensement des erreurs
+      // 3. Calculer la note et lister les questions échouées
       let score = 0;
       let erreurs = [];
       const total = state.questions.length * 2;
@@ -1178,7 +1179,7 @@
         }
       });
 
-      // 4. Bilan des erreurs
+      // 4. Construction du bloc des erreurs
       let detailErreursHtml = "";
       if (erreurs.length === 0) {
         detailErreursHtml = `
@@ -1222,7 +1223,7 @@
 
       resultBox.scrollIntoView({ behavior: 'smooth' });
 
-      // 6. Déclenchement sécurisé des effets visuels/sonores si note >= 16
+      // 6. Déclenchement de la célébration pour note >= 16
       if (score >= 16) {
         jouerApplaudissements();
         try {
@@ -1233,5 +1234,6 @@
       }
     }
   </script>
+  
 </body>
 </html>
