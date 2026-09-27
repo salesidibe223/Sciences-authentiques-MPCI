@@ -1035,7 +1035,8 @@
       let shuffled = shuffleArray(allQuestions);
       let selectedQuestions = shuffled.slice(0, 10);
 
-      activeState[subject] = { level, questions: selectedQuestions };
+      // On réinitialise l'état et le statut de validation (validated: false)
+      activeState[subject] = { level, questions: selectedQuestions, validated: false };
 
       let html = `<div class="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700 flex flex-wrap justify-between items-center gap-2">
         <h3 class="text-xl font-bold text-blue-600">Test ${subject.toUpperCase()} - ${level}ᵉ Année</h3>
@@ -1061,7 +1062,7 @@
       });
 
       html += `<div class="mt-8 flex flex-wrap gap-4">
-        <button onclick="submitTest('${subject}')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3.5 rounded-xl transition shadow-lg w-full md:w-auto">
+        <button id="btn-submit-${subject}" onclick="submitTest('${subject}')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3.5 rounded-xl transition shadow-lg w-full md:w-auto">
           Valider et voir la note sur 20
         </button>
         <button onclick="startTest('${subject}', '${level}')" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-6 py-3.5 rounded-xl transition w-full md:w-auto">
@@ -1073,6 +1074,36 @@
       box.innerHTML = html;
       box.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    // Corrige le test, BLOQUE les réponses et AFFICHE le bilan
+    function submitTest(subject) {
+      const state = activeState[subject];
+      if (!state) return;
+
+      // Anti-triche : Si le test a déjà été validé, on bloque une seconde validation
+      if (state.validated) {
+        alert("Vous avez déjà validé ce test. Pour retenter votre chance, cliquez sur 'Repasser un autre test'.");
+        return;
+      }
+
+      // Marquer le test comme validé
+      state.validated = true;
+
+      // 1. BLOQUER TOUTES LES OPTIONS RADIO (l'élève ne peut plus modifier ses choix)
+      state.questions.forEach((qObj, index) => {
+        const inputs = document.querySelectorAll(`input[name="q_${subject}_${index}"]`);
+        inputs.forEach(input => {
+          input.disabled = true; // Désactive l'interaction
+        });
+      });
+      // 2. DÉSACTIVER LE BOUTON DE VALIDATION
+      const submitBtn = document.getElementById(`btn-submit-${subject}`);
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.classList.remove("bg-green-600", "hover:bg-green-700");
+        submitBtn.classList.add("bg-gray-400", "cursor-not-allowed");
+        submitBtn.innerText = "Test déjà validé ✓";
+          }
         // Corrige le test et génère le bilan des erreurs + lien WhatsApp
     function submitTest(subject) {
       const state = activeState[subject];
@@ -1092,8 +1123,8 @@
       });
 
       const resultBox = document.getElementById(`result-${subject}`);
-      let color = score >= 10 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
-      let appreciation = score >= 16 ? "🏆 Excellent travail !" : score >= 10 ? "👍 Bon travail !" : "⚠️ Des révisions sont nécessaires.";
+      let color = score >= 12 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
+      let appreciation = score >= 18 ? "🏆 Excellent travail !" : score >= 16 ? "👏 Très bon travail !" : score >= 14 ? "👍 Bon travail !" : score >= 12 ? "😉 Assez bon travail !" : "⚠️ Des révisions sont nécessaires.";
 
         // DÉCLENCHEMENT DU SON ET DES CONFETTIS POUR LES NOTES >= 16/20 (16, 18, 20)
       if (score >= 16) {
