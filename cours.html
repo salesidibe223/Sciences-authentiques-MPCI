@@ -1135,6 +1135,48 @@
       `;
       resultBox.scrollIntoView({ behavior: 'smooth' });
     }
+      // Bloque la revalidation après le premier clic
+    (function antiDoubleValidation() {
+      const vieuxSubmit = window.submitTest;
+      if (typeof vieuxSubmit !== 'function') return;
+
+      let valideState = {};
+
+      window.submitTest = function(subject) {
+        if (valideState[subject]) {
+          alert("Vous avez déjà validé ce test ! Pour essayer à nouveau, veuillez cliquer sur 'Repasser un autre test'.");
+          return;
+        }
+
+        // Marque comme validé
+        valideState[subject] = true;
+
+        // Exécute la correction et l'affichage de la note normalement
+        vieuxSubmit(subject);
+
+        // Désactive les boutons radio
+        const inputs = document.querySelectorAll(`#quiz-box-${subject} input[type="radio"]`);
+        inputs.forEach(input => input.disabled = true);
+
+        // Modifie le bouton de validation pour indiquer qu'il est verrouillé
+        const btnSubmit = document.querySelector(`#quiz-box-${subject} button[onclick*="submitTest"]`);
+        if (btnSubmit) {
+          btnSubmit.disabled = true;
+          btnSubmit.classList.remove('bg-green-600', 'hover:bg-green-700');
+          btnSubmit.classList.add('bg-gray-400', 'cursor-not-allowed');
+          btnSubmit.innerText = 'Test déjà validé ✓';
+        }
+      };
+
+      // Réinitialise le blocage lors d'un nouveau tirage de questions
+      const vieuxStart = window.startTest;
+      if (typeof vieuxStart === 'function') {
+        window.startTest = function(subject, level) {
+          valideState[subject] = false;
+          vieuxStart(subject, level);
+        };
+      }
+    })();
   </script>
 </body>
 </html>
