@@ -15,7 +15,8 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://salesidibe223.github.io/Sciences-authentiques-MPCI/cours.html">
   <meta property="og:image" content="https://salesidibe223.github.io/Sciences-authentiques-MPCI/logo.png">
-
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = { darkMode: 'class' }
@@ -1094,6 +1095,21 @@
       let color = score >= 10 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400";
       let appreciation = score >= 16 ? "🏆 Excellent travail !" : score >= 10 ? "👍 Bon travail !" : "⚠️ Des révisions sont nécessaires.";
 
+        // DÉCLENCHEMENT DU SON ET DES CONFETTIS POUR LES NOTES >= 16/20 (16, 18, 20)
+      if (score >= 16) {
+        // 1. Jouer le son d'applaudissements
+        const applaudissements = new Audio('https://www.soundjay.com/human/applause-01.mp3');
+        applaudissements.play().catch(e => console.log("Lecture audio bloquée par le navigateur :", e));
+
+        // 2. Lancer les confettis (fleurs / cotillons qui s'envolent)
+        if (typeof confetti === 'function') {
+          confetti({
+            particleCount: 120,
+            spread: 80,
+            origin: { y: 0.6 }
+          });
+        }
+    }
       // Construction du bloc d'affichage des erreurs
       let detailErreursHtml = "";
       if (erreurs.length === 0) {
