@@ -1079,7 +1079,7 @@
     function submitTest(subject) {
       const state = activeState[subject];
       if (!state) return;
-
+    }
       // Anti-triche : Si le test a déjà été validé, on bloque une seconde validation
       if (state.validated) {
         alert("Vous avez déjà validé ce test. Pour retenter votre chance, cliquez sur 'Repasser un autre test'.");
