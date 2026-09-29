@@ -1278,6 +1278,77 @@
         }
       }
     })();
-  </script>
+     // Gestion du compte à rebours automatique (10 secondes par question = 100s au total)
+    (function gestionChronoTest() {
+      const TEMPS_PAR_QUESTION = 10; // 10 secondes par question (ajustable à 5s si besoin)
+      let timerInterval = null;
+
+      // 1. S'accroche au démarrage du test pour lancer le chrono
+      const vieuxStart = window.startTest;
+      if (typeof vieuxStart === 'function') {
+        window.startTest = function(subject, level) {
+          vieuxStart(subject, level);
+
+          // Arrête un ancien chrono s'il tournait
+          if (timerInterval) clearInterval(timerInterval);
+
+          const state = activeState[subject];
+          if (!state || !state.questions) return;
+
+          const tempsTotal = state.questions.length * TEMPS_PAR_QUESTION; // Ex: 10 × 10 = 100 secondes
+          let tempsRestant = tempsTotal;
+
+          // Ajoute la barre de chrono au-dessus du test
+          const quizBox = document.getElementById(`quiz-box-${subject}`);
+          if (quizBox) {
+            let chronoHeader = document.getElementById(`chrono-header-${subject}`);
+            if (!chronoHeader) {
+              chronoHeader = document.createElement('div');
+              chronoHeader.id = `chrono-header-${subject}`;
+              chronoHeader.className = "mb-4 p-3 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-900 dark:text-amber-200 font-bold flex justify-between items-center text-sm md:text-base border border-amber-300 dark:border-amber-700";
+              quizBox.prepend(chronoHeader);
+            }
+            
+            chronoHeader.innerHTML = `
+              <span>⏱️ Temps restant :</span>
+              <span id="timer-display-${subject}" class="text-xl font-extrabold text-red-600 dark:text-red-400">${tempsRestant}s</span>
+            `;
+          }
+
+          // Décompte chaque seconde
+          timerInterval = setInterval(() => {
+            tempsRestant--;
+            const display = document.getElementById(`timer-display-${subject}`);
+            if (display) display.innerText = `${tempsRestant}s`;
+
+            // Si le temps est écoulé
+            if (tempsRestant <= 0) {
+              clearInterval(timerInterval);
+
+              const chronoHeader = document.getElementById(`chrono-header-${subject}`);
+              if (chronoHeader) {
+                chronoHeader.className = "mb-4 p-3 rounded-xl bg-red-100 text-red-800 font-bold text-center";
+                chronoHeader.innerHTML = "⏳ Temps écoulé ! Validation automatique du test...";
+              }
+
+              // Valide automatiquement le test là où l'élève s'est arrêté
+              if (typeof window.submitTest === 'function') {
+                window.submitTest(subject);
+              }
+            }
+          }, 1000);
+        };
+      }
+
+      // 2. Arrête le chrono si l'élève valide manuellement avant la fin
+      const vieuxSubmit = window.submitTest;
+      if (typeof vieuxSubmit !== 'function') return;
+
+      window.submitTest = function(subject) {
+        if (timerInterval) clearInterval(timerInterval);
+        vieuxSubmit(subject);
+      };
+    })();
+           </script>
 </body>
 </html>
