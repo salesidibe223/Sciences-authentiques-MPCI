@@ -1344,7 +1344,56 @@
         vieuxSubmit(subject);
       };
     })();
-           </script>
+              // Système de mélange dynamique et tirage aléatoire unique pour chaque test
+    (function melangeurQuestionsAleatoires() {
+      // Algorithme de mélange rapide (Fisher-Yates)
+      function melangerTableau(array) {
+        const copicArray = [...array];
+        for (let i = copicArray.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [copicArray[i], copicArray[j]] = [copicArray[j], copicArray[i]];
+        }
+        return copicArray;
+      }
+
+      // S'accroche à la fonction de démarrage du test
+      const vieuxStart = window.startTest;
+      if (typeof vieuxStart === 'function') {
+        window.startTest = function(subject, level) {
+          // Si une banque globale de questions existe pour cette matière/niveau
+          if (window.banqueDeQuestions && window.banqueDeQuestions[subject] && window.banqueDeQuestions[subject][level]) {
+            const banqueTotale = window.banqueDeQuestions[subject][level];
+
+            // 1. Mélange complètement toute la banque de plus de 100 questions
+            const banqueMelangee = melangerTableau(banqueTotale);
+
+            // 2. Sélectionne 10 questions uniques
+            const questionsSelectionnees = banqueMelangee.slice(0, 10);
+
+            // 3. Mélange aussi l'ordre des options de réponses (A, B, C, D) pour chaque question
+            const questionsFinales = questionsSelectionnees.map(q => {
+              if (q.options && q.options.length > 0) {
+                return {
+                  ...q,
+                  options: melangerTableau(q.options)
+                };
+              }
+              return q;
+            });
+
+            // Injection des 10 nouvelles questions dans l'état actif
+            if (!window.activeState) window.activeState = {};
+            if (!window.activeState[subject]) window.activeState[subject] = {};
+            window.activeState[subject].questions = questionsFinales;
+          }
+
+          // Exécute la logique normale de démarrage
+          vieuxStart(subject, level);
+        };
+      }
+    })();
+  
+  </script>
   <!-- Boutons circulaires flottants (Facebook & Telegram) -->
   <div class="fixed bottom-5 right-5 flex flex-col gap-3 z-50">
     <!-- Bouton Telegram -->
